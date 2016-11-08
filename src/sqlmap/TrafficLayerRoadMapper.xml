@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.traffic.dao.TrafficLayerRoadMapper" >
+  <resultMap id="BaseResultMap" type="com.tt.traffic.domain.model.TrafficLayerRoad" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="geom" property="geom" jdbcType="VARCHAR" />
+    <result column="osm_id" property="osmId" jdbcType="VARCHAR" />
+    <result column="snode" property="snode" jdbcType="INTEGER" />
+    <result column="tnode" property="tnode" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="yn" property="yn" jdbcType="TINYINT" />
+  </resultMap>
+
+  <select id="getTrafficLayerRoadList" resultMap="BaseResultMap">
+    SELECT
+      <include refid="Base_Column_List"/>
+    FROM
+      traffic_layer_road
+    WHERE
+      yn = 1
+  </select>
+
+  <sql id="Base_Column_List" >
+    Id, name, geom, osm_id, snode, tnode, content, yn
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from traffic_layer_road
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from traffic_layer_road
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.tt.traffic.domain.model.TrafficLayerRoad" >
+    insert into traffic_layer_road (Id, name, geom, 
+      osm_id, snode, tnode, 
+      content, yn)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{geom,jdbcType=VARCHAR}, 
+      #{osmId,jdbcType=VARCHAR}, #{snode,jdbcType=INTEGER}, #{tnode,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{yn,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tt.traffic.domain.model.TrafficLayerRoad" >
+    insert into traffic_layer_road
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="geom != null" >
+        geom,
+      </if>
+      <if test="osmId != null" >
+        osm_id,
+      </if>
+      <if test="snode != null" >
+        snode,
+      </if>
+      <if test="tnode != null" >
+        tnode,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="yn != null" >
+        yn,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="geom != null" >
+        #{geom,jdbcType=VARCHAR},
+      </if>
+      <if test="osmId != null" >
+        #{osmId,jdbcType=VARCHAR},
+      </if>
+      <if test="snode != null" >
+        #{snode,jdbcType=INTEGER},
+      </if>
+      <if test="tnode != null" >
+        #{tnode,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="yn != null" >
+        #{yn,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.tt.traffic.domain.model.TrafficLayerRoad" >
+    update traffic_layer_road
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="geom != null" >
+        geom = #{geom,jdbcType=VARCHAR},
+      </if>
+      <if test="osmId != null" >
+        osm_id = #{osmId,jdbcType=VARCHAR},
+      </if>
+      <if test="snode != null" >
+        snode = #{snode,jdbcType=INTEGER},
+      </if>
+      <if test="tnode != null" >
+        tnode = #{tnode,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="yn != null" >
+        yn = #{yn,jdbcType=TINYINT},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tt.traffic.domain.model.TrafficLayerRoad" >
+    update traffic_layer_road
+    set name = #{name,jdbcType=VARCHAR},
+      geom = #{geom,jdbcType=VARCHAR},
+      osm_id = #{osmId,jdbcType=VARCHAR},
+      snode = #{snode,jdbcType=INTEGER},
+      tnode = #{tnode,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      yn = #{yn,jdbcType=TINYINT}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

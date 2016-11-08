@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tt.traffic.dao.TrafficProjectModelObserveFlowMapper">
+	<sql id="trafficProjectModelObserveFlowColumns">id,model_id,observe_position,road_name,dir,length,road_type,lon,lat,time,dataYear,observe_flow,source,accuracy,note,createTime,yn</sql>
+	<resultMap type="com.tt.traffic.domain.model.TrafficProjectModelObserveFlow" id="trafficProjectModelObserveFlowResultMap">
+		<id column="id" property="id"/>
+		<result column="model_id" property="model_id"/>
+		<result column="observe_position" property="observe_position"/>
+		<result column="road_name" property="road_name"/>
+		<result column="dir" property="dir"/>
+		<result column="length" property="length"/>
+		<result column="road_type" property="road_type"/>
+		<result column="lon" property="lon"/>
+		<result column="lat" property="lat"/>
+		<result column="dataYear" property="dataYear"/>
+		<result column="time" property="time"/>
+		<result column="observe_flow" property="observe_flow"/>
+		<result column="source" property="source"/>
+		<result column="accuracy" property="accuracy"/>
+		<result column="note" property="note"/>
+		<result column="createTime" property="createTime"/>
+		<result column="yn" property="yn"/>
+	</resultMap>
+
+	<select id="queryGeomInfoByModelId" parameterType="java.lang.Integer" resultType="java.util.Map">
+		select model_id, observe_position, lon, lat from traffic_project_model_observe_flow where model_id=#{model_id}  group by observe_position
+	</select>
+	<select id="queryObserveFlowsByModelIdAndPostion"  resultMap="trafficProjectModelObserveFlowResultMap">
+		select  <include refid="trafficProjectModelObserveFlowColumns"/>  from traffic_project_model_observe_flow where model_id=#{0} and observe_position=#{1}
+	</select>
+	<select id="queryObserveFlowsByModelId" parameterType="java.lang.Integer" resultMap="trafficProjectModelObserveFlowResultMap">
+		select  <include refid="trafficProjectModelObserveFlowColumns"/>  from traffic_project_model_observe_flow where model_id=#{model_id}
+	</select>
+	<select id="queryObserveFlowById" parameterType="java.lang.Integer" resultType="com.tt.traffic.domain.model.TrafficProjectModelObserveFlow">
+		select  <include refid="trafficProjectModelObserveFlowColumns"/>  from traffic_project_model_observe_flow where id=#{id}
+	</select>
+
+	<insert id="insert" parameterType="java.util.List"  useGeneratedKeys="true" >
+		insert into traffic_project_model_observe_flow(model_id,observe_position,road_name,dir,length,road_type,lon,lat,dataYear,time,observe_flow,source,accuracy,note,createTime,yn)
+		 values
+		<foreach collection="list" item="item" index="index" separator="," >  
+	        (#{item.model_id},#{item.observe_position},#{item.road_name},#{item.dir}, #{item.length},#{item.road_type},#{item.lon},#{item.lat},#{item.dataYear},#{item.time},#{item.observe_flow},#{item.source},#{item.accuracy},#{item.note}, #{item.createTime}, #{item.yn})
+	    </foreach> 
+	</insert>
+
+    <delete id="deleteByModelId" parameterType="java.lang.Integer">
+	        delete from traffic_project_model_observe_flow where model_id=#{model_id}
+    </delete>
+</mapper>

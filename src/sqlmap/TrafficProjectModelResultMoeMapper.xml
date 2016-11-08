@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tt.traffic.dao.TrafficProjectModelResultMoeMapper">
+	<sql id="trafficProjectModelResultMoeColumns">id,model_year_type_id,modelName,time,vehicleType,direction,sectionId,type,travelTime_minute,speed_mph,delay_hour,volume,vht,vmt,vmt_vht,occupancy,truckPercentge,createTime,yn</sql>
+	<resultMap type="com.tt.traffic.domain.model.TrafficProjectModelResultMoe" id="trafficProjectModelResultMoeResultMap">
+		<id column="id" property="id"/>
+		<result column="model_year_type_id" property="model_year_type_id"/>
+		<result column="modelName" property="modelName"/>
+		<result column="time" property="time"/>
+		<result column="vehicleType" property="vehicleType"/>
+		<result column="direction" property="direction"/>
+		<result column="sectionId" property="sectionId"/>
+		<result column="type" property="type"/>
+		<result column="travelTime_minute" property="travelTime_minute"/>
+		<result column="speed_mph" property="speed_mph"/>
+		<result column="delay_hour" property="delay_hour"/>
+		<result column="volume" property="volume"/>
+		<result column="vht" property="vht"/>
+		<result column="vmt" property="vmt"/>
+		<result column="vmt_vht" property="vmt_vht"/>
+		<result column="occupancy" property="occupancy"/>
+		<result column="truckPercentge" property="truckPercentge"/>
+		<result column="createTime" property="createTime"/>
+		<result column="yn" property="yn"/>
+	</resultMap>
+
+	<select id="queryResultMoeByModelYearTypeId" parameterType="java.lang.Integer" resultType="java.util.Map">
+		select l.a_longitude,l.a_latitude,l.b_longitude,l.b_latitude,m.speed_mph,m.volume,m.time,m.vmt_vht,m.id from traffic_project_model_result_moe m ,traffic_project_model_road_lookup lu, traffic_project_model_road_link l where m.model_year_type_id=#{model_year_type_id} and 
+		m.sectionId = lu.sectionId and lu.linkId = l.linkID 
+	</select>
+	<select id="queryListByModelYearTypeId" parameterType="java.lang.Integer" resultMap="trafficProjectModelResultMoeResultMap">
+		select  <include refid="trafficProjectModelResultMoeColumns"/>  from traffic_project_model_result_moe where model_year_type_id=#{model_year_type_id}
+	</select>
+	<select id="queryResultMoeById" parameterType="java.lang.Integer" resultType="com.tt.traffic.domain.model.TrafficProjectModelResultMoe">
+		select  <include refid="trafficProjectModelResultMoeColumns"/>  from traffic_project_model_result_moe where id=#{id}
+	</select>
+
+	<insert id="insert" parameterType="java.util.List"  useGeneratedKeys="true" >
+		insert into traffic_project_model_result_moe(model_year_type_id,modelName,time,vehicleType,direction,sectionId,type,travelTime_minute,speed_mph,delay_hour,volume,vht,vmt,vmt_vht,occupancy,truckPercentge,createTime,yn)
+		 values
+		<foreach collection="list" item="item" index="index" separator="," >  
+	        (#{item.model_year_type_id},#{item.modelName},#{item.time},#{item.vehicleType}, #{item.direction},#{item.sectionId},#{item.type},#{item.travelTime_minute},#{item.speed_mph},#{item.delay_hour},#{item.volume},#{item.vht},#{item.vmt},#{item.vmt_vht},#{item.occupancy},#{item.truckPercentge},#{item.createTime}, #{item.yn})
+	    </foreach> 
+	</insert>
+
+    <delete id="deleteByModelYearTypeId" parameterType="java.lang.Integer">
+	        delete from traffic_project_model_result_moe where model_year_type_id=#{model_year_type_id}
+    </delete>
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tt.traffic.dao.TrafficProjectModelMacroTypeMapper">
+	<sql id="trafficProjectModelMacroTypeColumns">id,model_id,model_year_type,plan_type,model_name,model_desc,shpData,traffic_array_1,traffic_array_2,cosResult_1,cosResult_2,model_correct_1,model_correct_2,createTime,updateTime,yn</sql>
+	<resultMap type="com.tt.traffic.domain.model.TrafficProjectModelMacroType" id="trafficProjectModelMacroTypeResultMap">
+		<id column="id" property="id"/>
+		<result column="model_id" property="model_id"/>
+		<result column="model_year_type" property="model_year_type"/>
+		<result column="plan_type" property="plan_type"/>
+		<result column="model_name" property="model_name"/>
+		<result column="model_desc" property="model_desc"/>
+		<result column="shpData" property="shpData"/>
+		<result column="traffic_array_1" property="traffic_array_1"/>
+		<result column="traffic_array_2" property="traffic_array_2"/>
+		<result column="cosResult_1" property="cosResult_1"/>
+		<result column="cosResult_2" property="cosResult_2"/>
+		<result column="model_correct_1" property="model_correct_1"/>
+		<result column="model_correct_2" property="model_correct_2"/>
+		<result column="createTime" property="createTime"/>
+		<result column="updateTime" property="updateTime"/>
+		<result column="yn" property="yn"/>
+	</resultMap>
+
+	<select id="queryTrafficProjectModelMacroTypeByModelId" parameterType="java.lang.Integer" resultMap="trafficProjectModelMacroTypeResultMap">
+		select  <include refid="trafficProjectModelMacroTypeColumns"/> from traffic_project_model_macro_type where model_id=#{model_id}
+	</select>
+	<select id="query" parameterType="java.lang.Integer" resultType="com.tt.traffic.domain.model.TrafficProjectModelMacroType">
+		select  <include refid="trafficProjectModelMacroTypeColumns"/> from traffic_project_model_macro_type where id=#{id}
+	</select>
+	<insert id="insert" parameterType="com.tt.traffic.domain.model.TrafficProjectModelMacroType"  useGeneratedKeys="true" keyProperty="id">
+		insert into traffic_project_model_macro_type(model_id,model_year_type,plan_type,model_name,model_desc,shpData,traffic_array_1,traffic_array_2,cosResult_1,cosResult_2,model_correct_1,model_correct_2,createTime,updateTime,yn) 
+		values(#{model_id},#{model_year_type},#{plan_type},#{model_name},#{model_desc},#{shpData},#{traffic_array_1},#{traffic_array_2}, #{cosResult_1},#{cosResult_2},#{model_correct_1},#{model_correct_2}, #{createTime},#{updateTime}, #{yn})
+	</insert>
+
+	<update id="update" parameterType="com.tt.traffic.domain.model.TrafficProjectModelMacroType" >
+        update traffic_project_model_macro_type 
+        <set>
+            <if test="model_name != null">
+                model_name = #{model_name},
+            </if>
+            <if test="model_desc != null">
+                model_desc = #{model_desc},
+            </if>
+            <if test="shpData != null">
+                shpData = #{shpData},
+            </if>
+            <if test="traffic_array_1 != null">
+                traffic_array_1 = #{traffic_array_1},
+            </if>
+            <if test="traffic_array_2 != null">
+                traffic_array_2 = #{traffic_array_2},
+            </if>
+            <if test="cosResult_1 != null">
+                cosResult_1 = #{cosResult_1},
+            </if>
+            <if test="cosResult_2 != null">
+                cosResult_2 = #{cosResult_2},
+            </if>
+            <if test="model_correct_1 != null">
+                model_correct_1 = #{model_correct_1},
+            </if>
+            <if test="model_correct_2 != null">
+                model_correct_2 = #{model_correct_2},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime},
+            </if>
+            <if test="yn != null">
+                yn = #{yn}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="delete" parameterType="com.tt.traffic.domain.model.TrafficProjectModelMacroType">
+	        delete from traffic_project_model_macro_type where id=#{id}
+    </delete>
+    <delete id="deleteByModelId" parameterType="java.lang.Integer">
+	        delete from traffic_project_model_macro_type where model_id=#{model_id}
+    </delete>
+</mapper>

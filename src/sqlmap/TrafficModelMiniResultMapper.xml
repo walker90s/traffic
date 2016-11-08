@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.traffic.dao.TrafficModelMiniResultMapper" >
+  <resultMap id="BaseResultMap" type="com.tt.traffic.domain.model.TrafficModelMiniResult" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="model_id" property="modelId" jdbcType="INTEGER" />
+    <result column="simulate_id" property="simulateId" jdbcType="INTEGER" />
+    <result column="start_interval" property="startInterval" jdbcType="VARCHAR" />
+    <result column="end_interval" property="endInterval" jdbcType="VARCHAR" />
+    <result column="link_group" property="linkGroup" jdbcType="VARCHAR" />
+    <result column="link_type" property="linkType" jdbcType="VARCHAR" />
+    <result column="link_count" property="linkCount" jdbcType="REAL" />
+    <result column="link_delay" property="linkDelay" jdbcType="REAL" />
+    <result column="link_density" property="linkDensity" jdbcType="REAL" />
+    <result column="link_flow" property="linkFlow" jdbcType="REAL" />
+    <result column="link_level" property="linkLevel" jdbcType="VARCHAR" />
+    <result column="service_measure" property="serviceMeasure" jdbcType="VARCHAR" />
+    <result column="los_value" property="losValue" jdbcType="REAL" />
+    <result column="link_speed" property="linkSpeed" jdbcType="REAL" />
+    <result column="link_travel_time" property="linkTravelTime" jdbcType="REAL" />
+    <result column="link_vdt" property="linkVdt" jdbcType="REAL" />
+    <result column="link_vht" property="linkVht" jdbcType="REAL" />
+    <result column="link_ptd" property="linkPtd" jdbcType="REAL" />
+    <result column="link_stop_time" property="linkStopTime" jdbcType="REAL" />
+    <result column="yn" property="yn" jdbcType="TINYINT" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    tmmr.Id, tmmr.model_id, tmmr.simulate_id, tmmr.start_interval, tmmr.end_interval, tmmr.link_group, tmmr.link_type, tmmr.link_count, tmmr.link_delay,
+tmmr.link_density, tmmr.link_flow, tmmr.link_level, tmmr.service_measure, tmmr.los_value, tmmr.link_speed, tmmr.link_travel_time,
+tmmr.link_vdt, tmmr.link_vht, tmmr.link_ptd, tmmr.link_stop_time, tmmr.yn
+  </sql>
+
+  <select id="getList" parameterType="com.tt.traffic.domain.model.TrafficModelMiniResult" resultMap="BaseResultMap">
+    SELECT
+      <include refid="Base_Column_List"/>
+    FROM
+      traffic_model_mini_result tmmr LEFT JOIN  traffic_model_mini tmm ON tmmr.link_group = tmm.link_group
+    WHERE
+    tmmr.yn=1 and tmm.yn=1
+    <if test="id != null and id > 0">
+      and tmmr.id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="simulateId != null and simulateId > 0">
+      and tmmr.simulate_id = #{simulateId,jdbcType=INTEGER}
+    </if>
+    <if test="modelId != null and modelId > 0">
+      and tmmr.model_id = #{modelId,jdbcType=INTEGER}
+    </if>
+    <if test="roadId != null and roadId > 0">
+      and tmm.road_id = #{roadId,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+ <select id="getMicModelResultCount" parameterType="java.util.Map" resultType="java.lang.Integer" >
+   select count(*) from traffic_simulate_base base, traffic_model_mini_result result 
+   where result.simulate_id = base.id 
+   and base.id = #{simulateId,jdbcType=INTEGER}
+  </select>
+
+  <select id="getMicModelResultPageList" parameterType="java.util.Map" resultType="java.util.HashMap" >
+   select result.*
+   from traffic_simulate_base base, traffic_model_mini_result result 
+   where result.simulate_id = base.id 
+   and base.id = #{simulateId,jdbcType=INTEGER} 
+   order by result.id asc 
+   limit #{offset},#{limit}
+  </select>
+  
+  <select id="getMicModelResultAvgChart" parameterType="java.util.Map" resultType="java.util.HashMap" >
+   	select concat(start_interval,"-",end_interval) as time,round(avg(link_density),4) as density,round(avg(link_flow),4) as flow,round(avg(link_speed),4) as speed 
+   	from  traffic_model_mini_result result  
+  	where result.simulate_id = #{simulateId,jdbcType=INTEGER} 
+   	group by start_interval,end_interval
+  </select>
+
+  <insert id="insert" parameterType="com.tt.traffic.domain.model.TrafficModelMiniResult" >
+    insert into traffic_model_mini_result (Id, model_id, simulate_id, start_interval,
+      end_interval, link_group, link_type, 
+      link_count, link_delay, link_density, 
+      link_flow, link_level, service_measure, 
+      los_value, link_speed, link_travel_time, 
+      link_vdt, link_vht, link_ptd, link_stop_time, 
+      yn)
+    values (#{id,jdbcType=INTEGER}, #{modelId,jdbcType=INTEGER}, #{simulateId,jdbcType=INTEGER}, #{startInterval,jdbcType=VARCHAR},
+      #{endInterval,jdbcType=VARCHAR}, #{linkGroup,jdbcType=VARCHAR}, #{linkType,jdbcType=VARCHAR}, 
+      #{linkCount,jdbcType=REAL}, #{linkDelay,jdbcType=REAL}, #{linkDensity,jdbcType=REAL}, 
+      #{linkFlow,jdbcType=REAL}, #{linkLevel,jdbcType=VARCHAR}, #{serviceMeasure,jdbcType=VARCHAR}, 
+      #{losValue,jdbcType=REAL}, #{linkSpeed,jdbcType=REAL}, #{linkTravelTime,jdbcType=REAL}, 
+      #{linkVdt,jdbcType=REAL}, #{linkVht,jdbcType=REAL}, #{linkPtd,jdbcType=REAL}, #{linkStopTime,jdbcType=REAL}, 
+      #{yn,jdbcType=TINYINT})
+  </insert>
+  
+  <insert id="insertList" parameterType="java.util.List" >
+    insert into traffic_model_mini_result (Id, model_id, simulate_id, start_interval,
+      end_interval, link_group, link_type, 
+      link_count, link_delay, link_density, 
+      link_flow, link_level, service_measure, 
+      los_value, link_speed, link_travel_time, 
+      link_vdt, link_vht, link_ptd, link_stop_time, 
+      yn)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >  
+       (#{item.id,jdbcType=INTEGER}, #{item.modelId,jdbcType=INTEGER}, #{item.simulateId,jdbcType=INTEGER}, #{item.startInterval,jdbcType=VARCHAR},
+      #{item.endInterval,jdbcType=VARCHAR}, #{item.linkGroup,jdbcType=VARCHAR}, #{item.linkType,jdbcType=VARCHAR}, 
+      #{item.linkCount,jdbcType=REAL}, #{item.linkDelay,jdbcType=REAL}, #{item.linkDensity,jdbcType=REAL}, 
+      #{item.linkFlow,jdbcType=REAL}, #{item.linkLevel,jdbcType=VARCHAR}, #{item.serviceMeasure,jdbcType=VARCHAR}, 
+      #{item.losValue,jdbcType=REAL}, #{item.linkSpeed,jdbcType=REAL}, #{item.linkTravelTime,jdbcType=REAL}, 
+      #{item.linkVdt,jdbcType=REAL}, #{item.linkVht,jdbcType=REAL}, #{item.linkPtd,jdbcType=REAL}, #{item.linkStopTime,jdbcType=REAL}, 
+      #{item.yn,jdbcType=TINYINT})
+    </foreach> 
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.tt.traffic.domain.model.TrafficModelMiniResult" >
+    update traffic_model_mini_result
+    set model_id = #{modelId,jdbcType=INTEGER},
+      simulate_id = #{simulateId,jdbcType=INTEGER},
+      start_interval = #{startInterval,jdbcType=VARCHAR},
+      end_interval = #{endInterval,jdbcType=VARCHAR},
+      link_group = #{linkGroup,jdbcType=VARCHAR},
+      link_type = #{linkType,jdbcType=VARCHAR},
+      link_count = #{linkCount,jdbcType=REAL},
+      link_delay = #{linkDelay,jdbcType=REAL},
+      link_density = #{linkDensity,jdbcType=REAL},
+      link_flow = #{linkFlow,jdbcType=REAL},
+      link_level = #{linkLevel,jdbcType=VARCHAR},
+      service_measure = #{serviceMeasure,jdbcType=VARCHAR},
+      los_value = #{losValue,jdbcType=REAL},
+      link_speed = #{linkSpeed,jdbcType=REAL},
+      link_travel_time = #{linkTravelTime,jdbcType=REAL},
+      link_vdt = #{linkVdt,jdbcType=REAL},
+      link_vht = #{linkVht,jdbcType=REAL},
+      link_ptd = #{linkPtd,jdbcType=REAL},
+      link_stop_time = #{linkStopTime,jdbcType=REAL},
+      yn = #{yn,jdbcType=TINYINT}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteBySimulateId" parameterType="java.lang.Integer" >
+    delete from traffic_model_mini_result
+    where simulate_id = #{simulateId,jdbcType=INTEGER}
+  </delete>
+</mapper>

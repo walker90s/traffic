@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.traffic.dao.TrafficModelInterResultIntMapper" >
+  <resultMap id="BaseResultMap" type="com.tt.traffic.domain.model.TrafficModelInterResultInt" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="model_id" property="modelId" jdbcType="INTEGER" />
+    <result column="simulate_id" property="simulateId" jdbcType="INTEGER" />
+    <result column="cross_id" property="crossId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="cycle_length" property="cycleLength" jdbcType="INTEGER" />
+    <result column="offset" property="offset" jdbcType="INTEGER" />
+    <result column="control_type" property="controlType" jdbcType="VARCHAR" />
+    <result column="voc" property="voc" jdbcType="REAL" />
+    <result column="los" property="los" jdbcType="VARCHAR" />
+    <result column="delay" property="delay" jdbcType="REAL" />
+    <result column="icu" property="icu" jdbcType="REAL" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    Id, model_id, simulate_id, cross_id, name, cycle_length, offset, control_type, voc, 
+    los, delay, icu
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from traffic_model_inter_result_int
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from traffic_model_inter_result_int
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+ 
+  <insert id="insert" parameterType="com.tt.traffic.domain.model.TrafficModelInterResultInt" >
+    insert into traffic_model_inter_result_int (Id, model_id, simulate_id, 
+      cross_id, name, cycle_length, 
+      offset, control_type, voc, 
+      los, delay, icu)
+    values (#{id,jdbcType=INTEGER}, #{modelId,jdbcType=INTEGER}, #{simulateId,jdbcType=INTEGER}, 
+      #{crossId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{cycleLength,jdbcType=INTEGER}, 
+      #{offset,jdbcType=INTEGER}, #{controlType,jdbcType=VARCHAR}, #{voc,jdbcType=REAL}, 
+      #{los,jdbcType=VARCHAR}, #{delay,jdbcType=REAL}, #{icu,jdbcType=REAL})
+  </insert>
+  
+    
+  <insert id="insertList" parameterType="java.util.List" >
+     insert into traffic_model_inter_result_int (Id, model_id, simulate_id, 
+      cross_id, name, cycle_length, 
+      offset, control_type, voc, 
+      los, delay, icu)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >  
+       (#{item.id,jdbcType=INTEGER}, #{item.modelId,jdbcType=INTEGER}, #{item.simulateId,jdbcType=INTEGER}, 
+      #{item.crossId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.cycleLength,jdbcType=INTEGER}, 
+      #{item.offset,jdbcType=INTEGER}, #{item.controlType,jdbcType=VARCHAR}, #{item.voc,jdbcType=REAL}, 
+      #{item.los,jdbcType=VARCHAR}, #{item.delay,jdbcType=REAL}, #{item.icu,jdbcType=REAL})
+    </foreach> 
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.tt.traffic.domain.model.TrafficModelInterResultInt" >
+    insert into traffic_model_inter_result_int
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="modelId != null" >
+        model_id,
+      </if>
+      <if test="simulateId != null" >
+        simulate_id,
+      </if>
+      <if test="crossId != null" >
+        cross_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="cycleLength != null" >
+        cycle_length,
+      </if>
+      <if test="offset != null" >
+        offset,
+      </if>
+      <if test="controlType != null" >
+        control_type,
+      </if>
+      <if test="voc != null" >
+        voc,
+      </if>
+      <if test="los != null" >
+        los,
+      </if>
+      <if test="delay != null" >
+        delay,
+      </if>
+      <if test="icu != null" >
+        icu,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="modelId != null" >
+        #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="simulateId != null" >
+        #{simulateId,jdbcType=INTEGER},
+      </if>
+      <if test="crossId != null" >
+        #{crossId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleLength != null" >
+        #{cycleLength,jdbcType=INTEGER},
+      </if>
+      <if test="offset != null" >
+        #{offset,jdbcType=INTEGER},
+      </if>
+      <if test="controlType != null" >
+        #{controlType,jdbcType=VARCHAR},
+      </if>
+      <if test="voc != null" >
+        #{voc,jdbcType=REAL},
+      </if>
+      <if test="los != null" >
+        #{los,jdbcType=VARCHAR},
+      </if>
+      <if test="delay != null" >
+        #{delay,jdbcType=REAL},
+      </if>
+      <if test="icu != null" >
+        #{icu,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.tt.traffic.domain.model.TrafficModelInterResultInt" >
+    update traffic_model_inter_result_int
+    <set >
+      <if test="modelId != null" >
+        model_id = #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="simulateId != null" >
+        simulate_id = #{simulateId,jdbcType=INTEGER},
+      </if>
+      <if test="crossId != null" >
+        cross_id = #{crossId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleLength != null" >
+        cycle_length = #{cycleLength,jdbcType=INTEGER},
+      </if>
+      <if test="offset != null" >
+        offset = #{offset,jdbcType=INTEGER},
+      </if>
+      <if test="controlType != null" >
+        control_type = #{controlType,jdbcType=VARCHAR},
+      </if>
+      <if test="voc != null" >
+        voc = #{voc,jdbcType=REAL},
+      </if>
+      <if test="los != null" >
+        los = #{los,jdbcType=VARCHAR},
+      </if>
+      <if test="delay != null" >
+        delay = #{delay,jdbcType=REAL},
+      </if>
+      <if test="icu != null" >
+        icu = #{icu,jdbcType=REAL},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tt.traffic.domain.model.TrafficModelInterResultInt" >
+    update traffic_model_inter_result_int
+    set model_id = #{modelId,jdbcType=INTEGER},
+      simulate_id = #{simulateId,jdbcType=INTEGER},
+      cross_id = #{crossId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      cycle_length = #{cycleLength,jdbcType=INTEGER},
+      offset = #{offset,jdbcType=INTEGER},
+      control_type = #{controlType,jdbcType=VARCHAR},
+      voc = #{voc,jdbcType=REAL},
+      los = #{los,jdbcType=VARCHAR},
+      delay = #{delay,jdbcType=REAL},
+      icu = #{icu,jdbcType=REAL}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteBySimulateId" parameterType="java.lang.Integer" >
+    delete from traffic_model_inter_result_int
+    where simulate_id = #{simulateId,jdbcType=INTEGER}
+  </delete>
+</mapper>

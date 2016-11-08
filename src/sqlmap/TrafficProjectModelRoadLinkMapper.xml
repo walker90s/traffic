@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tt.traffic.dao.TrafficProjectModelRoadLinkMapper">
+	<sql id="trafficProjectModelRoadLinkColumns">id,model_year_type_id,linkID,oneway_twoway,ab_direction,ba_direction,a_id,a_latitude,a_longitude,b_id,b_latitude,b_longitude,ab_lanes,ba_lanes,length_mile,type,roadName,routeName,routeID,createTime,yn</sql>
+	<resultMap type="com.tt.traffic.domain.model.TrafficProjectModelRoadLink" id="trafficProjectModelRoadLinkResultMap">
+		<id column="id" property="id"/>
+		<result column="model_year_type_id" property="model_year_type_id"/>
+		<result column="linkID" property="linkID"/>
+		<result column="oneway_twoway" property="oneway_twoway"/>
+		<result column="ab_direction" property="ab_direction"/>
+		<result column="ba_direction" property="ba_direction"/>
+		<result column="a_id" property="a_id"/>
+		<result column="a_latitude" property="a_latitude"/>
+		<result column="a_longitude" property="a_longitude"/>
+		<result column="b_id" property="b_id"/>
+		<result column="b_latitude" property="b_latitude"/>
+		<result column="b_longitude" property="b_longitude"/>
+		<result column="ab_lanes" property="ab_lanes"/>
+		<result column="ba_lanes" property="ba_lanes"/>
+		<result column="length_mile" property="length_mile"/>		
+		<result column="type" property="type"/>
+		<result column="roadName" property="roadName"/>
+		<result column="routeName" property="routeName"/>
+		<result column="routeID" property="routeID"/>
+		<result column="createTime" property="createTime"/>
+		<result column="yn" property="yn"/>
+	</resultMap>
+
+	<select id="queryListByModelYearTypeId" parameterType="java.lang.Integer" resultMap="trafficProjectModelRoadLinkResultMap">
+		select  <include refid="trafficProjectModelRoadLinkColumns"/>  from traffic_project_model_road_link where model_year_type_id=#{model_year_type_id}
+	</select>
+	<select id="queryRoadLinkById" parameterType="java.lang.Integer" resultType="com.tt.traffic.domain.model.TrafficProjectModelRoadLink">
+		select  <include refid="trafficProjectModelRoadLinkColumns"/>  from traffic_project_model_road_link where id=#{id}
+	</select>
+
+	<insert id="insert" parameterType="java.util.List"  useGeneratedKeys="true" >
+		insert into traffic_project_model_road_link(model_year_type_id,linkID,oneway_twoway,ab_direction,ba_direction,a_id,a_latitude,a_longitude,b_id,b_latitude,b_longitude,ab_lanes,ba_lanes,length_mile,type,roadName,routeName,routeID,createTime,yn)
+		 values
+		<foreach collection="list" item="item" index="index" separator="," >  
+	        (#{item.model_year_type_id},#{item.linkID},#{item.oneway_twoway},#{item.ab_direction}, #{item.ba_direction},#{item.a_id},#{item.a_latitude},#{item.a_longitude},#{item.b_id},#{item.b_latitude},#{item.b_longitude}
+	        ,#{item.ab_lanes},#{item.ba_lanes},#{item.length_mile},#{item.type},#{item.roadName},#{item.routeName},#{item.routeID},#{item.createTime}, #{item.yn})
+	    </foreach> 
+	</insert>
+
+    <delete id="deleteByModelYearTypeId" parameterType="java.lang.Integer">
+	        delete from traffic_project_model_road_link where model_year_type_id=#{model_year_type_id}
+    </delete>
+</mapper>

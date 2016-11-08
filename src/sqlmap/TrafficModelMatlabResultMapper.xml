@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.traffic.dao.TrafficModelMatlabResultMapper" >
+  <resultMap id="BaseResultMap" type="com.tt.traffic.domain.model.TrafficModelMatlabResult" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="model_id" property="modelId" jdbcType="INTEGER" />
+    <result column="road_id" property="roadId" jdbcType="INTEGER" />
+    <result column="simulate_id" property="simulateId" jdbcType="INTEGER" />
+    <result column="aorb" property="aorb" jdbcType="TINYINT" />
+    <result column="time" property="time" jdbcType="VARCHAR" />
+    <result column="density" property="density" jdbcType="REAL" />
+    <result column="flow" property="flow" jdbcType="INTEGER" />
+    <result column="speed" property="speed" jdbcType="REAL" />
+    <result column="yn" property="yn" jdbcType="TINYINT" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    Id, model_id,simulate_id, road_id, aorb, time, density, flow, speed, yn
+  </sql>
+
+  <select id="selectByRecord" resultMap="BaseResultMap" parameterType="com.tt.traffic.domain.model.TrafficModelMatlabResult" >
+    select 
+    <include refid="Base_Column_List" />
+    from traffic_model_matlab_result
+    where 1=1
+    <if test="id != null" >
+      and id = #{id,jdbcType=INTEGER}
+    </if>
+	<if test="modelId != null" >
+      and model_id = #{modelId,jdbcType=INTEGER}
+ 	</if>
+    <if test="simulateId != null" >
+      and simulate_id = #{simulateId,jdbcType=INTEGER}
+    </if>
+ 	<if test="roadId != null" >
+      and road_id = #{roadId,jdbcType=INTEGER}
+ 	</if>
+    <if test="aorb != null" >
+      and aorb = #{aorb,jdbcType=TINYINT}
+ 	</if>
+ 	<if test="time != null" >
+      and time = #{time,jdbcType=VARCHAR}
+ 	</if>
+  </select>
+  
+  <select id="getMidModelResultCount" parameterType="java.util.Map" resultType="java.lang.Integer" >
+   select count(*) from traffic_simulate_base base, traffic_model_matlab_result result,traffic_model_matlab mid   
+   where result.simulate_id = base.id and result.model_id = mid.model_id and result.aorb = mid.aorb and result.road_id = mid.road_id 
+   and base.id = #{simulateId,jdbcType=INTEGER}
+  </select>
+
+  <select id="getMidModelResultPageList" parameterType="java.util.Map" resultType="java.util.HashMap" >
+   select result.id,mid.roadname,result.aorb,result.time,result.density,result.flow ,result.speed 
+   from traffic_simulate_base base, traffic_model_matlab_result result,traffic_model_matlab mid 
+   where result.simulate_id = base.id and result.model_id = mid.model_id and result.aorb = mid.aorb and result.road_id = mid.road_id 
+   and base.id = #{simulateId,jdbcType=INTEGER} 
+   order by result.id asc 
+   limit #{offset},#{limit}
+  </select>
+  
+  <select id="getMidModelResultAvgChart" parameterType="java.util.Map" resultType="java.util.HashMap" >
+   select time,round(avg(density),4) as density,round(avg(flow),4) as flow,round(avg(speed),4) as speed from traffic_model_matlab_result result  
+   where result.simulate_id = #{simulateId,jdbcType=INTEGER} 
+   group by time
+  </select>
+  
+  <insert id="insert" parameterType="com.tt.traffic.domain.model.TrafficModelMatlabResult" >
+    insert into traffic_model_matlab_result (Id, model_id,simulate_id, road_id, 
+      aorb, time, density, flow, 
+      speed, yn)
+    values (#{id,jdbcType=INTEGER}, #{modelId,jdbcType=INTEGER}, #{simulateId,jdbcType=INTEGER},#{roadId,jdbcType=INTEGER}, 
+      #{aorb,jdbcType=TINYINT}, #{time,jdbcType=VARCHAR}, #{density,jdbcType=REAL}, #{flow,jdbcType=INTEGER}, 
+      #{speed,jdbcType=REAL}, #{yn,jdbcType=TINYINT})
+  </insert>
+  
+  <insert id="insertList" parameterType="java.util.List" >
+    insert into traffic_model_matlab_result (Id, model_id,simulate_id, road_id, 
+      aorb, time, density, flow, 
+      speed, yn)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.id,jdbcType=INTEGER}, #{item.modelId,jdbcType=INTEGER}, #{item.simulateId,jdbcType=INTEGER}, #{item.roadId,jdbcType=INTEGER}, 
+      #{item.aorb,jdbcType=TINYINT}, #{item.time,jdbcType=VARCHAR}, #{item.density,jdbcType=REAL}, #{item.flow,jdbcType=INTEGER}, 
+      #{item.speed,jdbcType=REAL}, #{item.yn,jdbcType=TINYINT})
+    </foreach> 
+  </insert>
+  
+  <update id="updateDensityFlowSpeed" parameterType="com.tt.traffic.domain.model.TrafficModelMatlabResult" >
+    update traffic_model_matlab_result
+    <set >
+      <if test="density != null" >
+        density = #{density,jdbcType=REAL},
+      </if>
+      <if test="flow != null" >
+        flow = #{flow,jdbcType=INTEGER},
+      </if>
+      <if test="speed != null" >
+        speed = #{speed,jdbcType=REAL},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="batchUpdateDensityFlowSpeed" parameterType="java.util.List" >
+ 	<foreach collection="list" item="item" index="index" open="" close="" separator=";" >  
+     update traffic_model_matlab_result
+    <set >
+      <if test="item.density != null" >
+        density = #{item.density,jdbcType=REAL},
+      </if>
+      <if test="item.flow != null" >
+        flow = #{item.flow,jdbcType=INTEGER},
+      </if>
+      <if test="item.speed != null" >
+        speed = #{item.speed,jdbcType=REAL},
+      </if>
+    </set>
+    where Id = #{item.id,jdbcType=INTEGER}
+    </foreach> 
+  </update>
+  
+  <delete id="deleteBySimulateId" parameterType="java.lang.Integer" >
+    delete from traffic_model_matlab_result
+    where simulate_id = #{simulateId,jdbcType=INTEGER}
+  </delete>
+</mapper>

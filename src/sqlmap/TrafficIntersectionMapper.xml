@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.traffic.dao.TrafficIntersectionMapper">
+    <resultMap id="BaseResultMap" type="com.tt.traffic.domain.model.TrafficIntersection">
+        <result column="Id" property="id" jdbcType="INTEGER"/>
+        <result column="model_id" property="modelId" jdbcType="INTEGER"/>
+        <result column="geom" property="geom" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="lon" property="lon" jdbcType="VARCHAR"/>
+        <result column="lat" property="lat" jdbcType="VARCHAR"/>
+        <result column="cross_id" property="crossId" jdbcType="INTEGER"/>
+        <result column="cycle" property="cycle" jdbcType="INTEGER"/>
+        <result column="phase" property="phase" jdbcType="INTEGER"/>
+        <result column="yn" property="yn" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="baseColumn">id, model_id, geom, name, lon, lat, cross_id, cycle, phase</sql>
+
+    <select id="getIntersectionList" resultMap="BaseResultMap">
+        SELECT
+          <include refid="baseColumn"/>
+        FROM
+          traffic_model_intersection
+        where
+          yn = 1
+    </select>
+    <select id="getIntersectionListByModelId" resultMap="BaseResultMap" parameterType="int">
+        SELECT
+          <include refid="baseColumn"/>
+        FROM
+          traffic_model_intersection ti
+        WHERE
+            ti.yn = 1
+            and ti.model_id=#{modelId}
+    </select>
+    <select id="getIntersectionByCrossid" parameterType="int" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM
+        traffic_model_intersection
+        where
+        yn = 1 and cross_id=#{crossid}
+    </select>
+</mapper>

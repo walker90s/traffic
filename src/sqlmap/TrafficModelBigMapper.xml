@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.traffic.dao.TrafficModelBigMapper" >
+  <resultMap id="BaseResultMap" type="com.tt.traffic.domain.model.TrafficModelBig" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="road_id" property="roadId" jdbcType="INTEGER" />
+    <result column="model_id" property="modelId" jdbcType="INTEGER" />
+    <result column="length" property="length" jdbcType="REAL" />
+    <result column="dir" property="dir" jdbcType="TINYINT" />
+    <result column="link_id" property="linkId" jdbcType="INTEGER" />
+    <result column="link_type" property="linkType" jdbcType="VARCHAR" />
+    <result column="ab_speed" property="abSpeed" jdbcType="INTEGER" />
+    <result column="ab_lanes" property="abLanes" jdbcType="INTEGER" />
+    <result column="ab_capacit" property="abCapacit" jdbcType="INTEGER" />
+    <result column="ab_capaci1" property="abCapaci1" jdbcType="REAL" />
+    <result column="ab_time" property="abTime" jdbcType="REAL" />
+    <result column="ba_speed" property="baSpeed" jdbcType="REAL" />
+    <result column="ba_lanes" property="baLanes" jdbcType="INTEGER" />
+    <result column="ba_capacit" property="baCapacit" jdbcType="INTEGER" />
+    <result column="ba_capaci1" property="baCapaci1" jdbcType="REAL" />
+    <result column="ba_time" property="baTime" jdbcType="REAL" />
+    <result column="roadname" property="roadname" jdbcType="VARCHAR" />
+    <result column="yn" property="yn" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ModelAndResultResultMap" type="com.tt.traffic.domain.model.TrafficModelBig" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="road_id" property="roadId" jdbcType="INTEGER" />
+    <result column="model_id" property="modelId" jdbcType="INTEGER" />
+    <result column="length" property="length" jdbcType="REAL" />
+    <result column="dir" property="dir" jdbcType="TINYINT" />
+    <result column="link_id" property="linkId" jdbcType="INTEGER" />
+    <result column="link_type" property="linkType" jdbcType="VARCHAR" />
+    <result column="ab_speed" property="abSpeed" jdbcType="INTEGER" />
+    <result column="ab_lanes" property="abLanes" jdbcType="INTEGER" />
+    <result column="ab_capacit" property="abCapacit" jdbcType="INTEGER" />
+    <result column="ab_capaci1" property="abCapaci1" jdbcType="REAL" />
+    <result column="ab_time" property="abTime" jdbcType="REAL" />
+    <result column="ba_speed" property="baSpeed" jdbcType="REAL" />
+    <result column="ba_lanes" property="baLanes" jdbcType="INTEGER" />
+    <result column="ba_capacit" property="baCapacit" jdbcType="INTEGER" />
+    <result column="ba_capaci1" property="baCapaci1" jdbcType="REAL" />
+    <result column="ba_time" property="baTime" jdbcType="REAL" />
+    <result column="roadname" property="roadname" jdbcType="VARCHAR" />
+    <result column="ab_geom" property="abGeom" jdbcType="LONGVARCHAR" />
+    <result column="ba_geom" property="baGeom" jdbcType="LONGVARCHAR" />
+    <result column="yn" property="yn" jdbcType="TINYINT" />
+    <association property="trafficModelBigResult" javaType="com.tt.traffic.domain.model.TrafficModelBigResult">
+      <result column="ab_voc" property="abVoc" jdbcType="REAL" />
+      <result column="ba_voc" property="baVoc" jdbcType="REAL" />
+      <result column="ab_flow" property="abFlow" jdbcType="REAL" />
+      <result column="ba_flow" property="baFlow" jdbcType="REAL" />
+      <result column="ab_time" property="abTime" jdbcType="REAL" />
+      <result column="ba_time" property="baTime" jdbcType="REAL" />
+      <result column="ab_speed" property="abSpeed" jdbcType="REAL" />
+      <result column="ba_speed" property="baSpeed" jdbcType="REAL" />
+    </association>
+  </resultMap>
+  <select id="selectTrafficModelBigByModelId" parameterType="int" resultMap="ModelAndResultResultMap">
+    SELECT
+      <include refid="Model_Result_Column_List"/>
+    FROM
+      traffic_model_big m LEFT JOIN traffic_model_big_result mr on m.road_id = mr.road_id
+    WHERE
+      m.yn = 1 and mr.yn = 1 and m.model_id = #{modelId}
+  </select>
+  <select id="selectTrafficModelAndResultByResultId" parameterType="int" resultMap="ModelAndResultResultMap">
+    SELECT
+    <include refid="Model_Result_Column_List"/>
+    FROM
+    traffic_model_big m LEFT JOIN traffic_model_big_result mr on m.road_id = mr.road_id
+    WHERE
+    m.yn = 1 and mr.yn = 1 and mr.simulate_id = #{simulateId}
+  </select>
+
+  <sql id="Base_Column_List" >
+    Id, road_id, model_id, length, dir, link_id, link_type, ab_speed, ab_lanes, ab_capacit, 
+    ab_capaci1, ab_time, ba_speed, ba_lanes, ba_capacit, ba_capaci1, ba_time, roadname, 
+    yn
+  </sql>
+  <sql id="Model_Result_Column_List" >
+    m.Id, m.road_id, m.model_id, m.length, m.dir, m.link_id, m.link_type, m.ab_speed, m.ab_lanes, m.ab_capacit,
+    m.ab_capaci1, m.ab_time, m.ba_speed, m.ba_lanes, m.ba_capacit, m.ba_capaci1, m.ba_time, m.roadname,m.ab_geom, m.ba_geom,m.yn,
+    mr.ab_voc,mr.ba_voc,mr.ab_flow,mr.ba_flow, mr.ab_time, mr.ba_time, mr.ab_speed, mr.ba_speed
+  </sql>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from traffic_model_big
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <update id="updateByPrimaryKey" parameterType="com.tt.traffic.domain.model.TrafficModelBig" >
+    update traffic_model_big
+    set road_id = #{roadId,jdbcType=INTEGER},
+      model_id = #{modelId,jdbcType=INTEGER},
+      length = #{length,jdbcType=REAL},
+      dir = #{dir,jdbcType=TINYINT},
+      link_id = #{linkId,jdbcType=INTEGER},
+      link_type = #{linkType,jdbcType=VARCHAR},
+      ab_speed = #{abSpeed,jdbcType=INTEGER},
+      ab_lanes = #{abLanes,jdbcType=INTEGER},
+      ab_capacit = #{abCapacit,jdbcType=INTEGER},
+      ab_capaci1 = #{abCapaci1,jdbcType=REAL},
+      ab_time = #{abTime,jdbcType=REAL},
+      ba_speed = #{baSpeed,jdbcType=REAL},
+      ba_lanes = #{baLanes,jdbcType=INTEGER},
+      ba_capacit = #{baCapacit,jdbcType=INTEGER},
+      ba_capaci1 = #{baCapaci1,jdbcType=REAL},
+      ba_time = #{baTime,jdbcType=REAL},
+      roadname = #{roadname,jdbcType=VARCHAR},
+      yn = #{yn,jdbcType=TINYINT}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

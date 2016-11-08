@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.traffic.dao.TrafficModelMatlatMapper" >
+  <resultMap id="BaseResultMap" type="com.tt.traffic.domain.model.TrafficModelMatlab" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="model_id" property="modelId" jdbcType="VARCHAR" />
+    <result column="road_id" property="roadId" jdbcType="VARCHAR" />
+    <result column="aorb" property="aorb" jdbcType="TINYINT" />
+    <result column="density_link_id" property="densityLinkId" jdbcType="INTEGER" />
+    <result column="flow_speed_link_id" property="flowSpeedLinkId" jdbcType="INTEGER" />
+    <result column="roadname" property="roadname" jdbcType="VARCHAR" />
+    <result column="link_type" property="linkType" jdbcType="VARCHAR" />
+    <result column="length" property="length" jdbcType="REAL" />
+    <result column="geom" property="geom" jdbcType="LONGVARCHAR" />
+    <result column="yn" property="yn" jdbcType="TINYINT" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    Id, model_id, road_id, aorb, density_link_id, flow_speed_link_id, roadname, link_type, 
+    length, geom, yn
+  </sql>
+
+  <select id="getList" resultMap="BaseResultMap">
+    SELECT
+      <include refid="Base_Column_List"/>
+    FROM
+      traffic_model_matlab
+    WHERE
+      yn = 1
+  </select>
+
+  <select id="getMatlabListByModelId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT
+      <include refid="Base_Column_List"/>
+    FROM
+      traffic_model_matlab
+    WHERE  yn = 1 and model_id = #{modelId,jdbcType=INTEGER}
+  </select>
+  
+  <insert id="insert" parameterType="com.tt.traffic.domain.model.TrafficModelMatlab" >
+    insert into traffic_model_matlab (Id, model_id, road_id, 
+      aorb, density_link_id, flow_speed_link_id, 
+      roadname, link_type, length, 
+      yn, geom)
+    values (#{id,jdbcType=INTEGER}, #{modelId,jdbcType=VARCHAR}, #{roadId,jdbcType=VARCHAR}, 
+      #{aorb,jdbcType=TINYINT}, #{densityLinkId,jdbcType=INTEGER}, #{flowSpeedLinkId,jdbcType=INTEGER}, 
+      #{roadname,jdbcType=VARCHAR}, #{linkType,jdbcType=VARCHAR}, #{length,jdbcType=REAL}, 
+      #{yn,jdbcType=TINYINT}, #{geom,jdbcType=LONGVARCHAR})
+  </insert>
+
+</mapper>

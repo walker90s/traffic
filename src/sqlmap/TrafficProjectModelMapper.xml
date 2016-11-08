@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tt.traffic.dao.TrafficProjectModelMapper">
+	<sql id="trafficProjectModelColumns">id,project_id,type_id,name,model_desc,speed_data,road_flow,createTime,updateTime,yn</sql>
+	<resultMap type="com.tt.traffic.domain.model.TrafficProjectModel" id="trafficProjectModelResultMap">
+		<id column="id" property="id"/>
+		<result column="project_id" property="project_id"/>
+		<result column="type_id" property="type_id"/>
+		<result column="name" property="name"/>
+		<result column="model_desc" property="model_desc"/>
+		<result column="speed_data" property="speed_data"/>
+		<result column="road_flow" property="road_flow"/>
+		<result column="createTime" property="createTime"/>
+		<result column="updateTime" property="updateTime"/>
+		<result column="yn" property="yn"/>
+	</resultMap>
+
+	<select id="queryTrafficProjectModelByProjectId" parameterType="java.lang.Integer" resultMap="trafficProjectModelResultMap">
+		select  <include refid="trafficProjectModelColumns"/> from traffic_project_model where project_id=#{project_id}
+	</select>
+
+	<insert id="insert" parameterType="com.tt.traffic.domain.model.TrafficProjectModel"  useGeneratedKeys="true" keyProperty="id">
+		insert into traffic_project_model(project_id,type_id,name,model_desc,speed_data,road_flow,createTime,updateTime,yn) values(#{project_id},#{type_id},#{name},#{model_desc}, #{speed_data},#{road_flow}, #{createTime},#{updateTime}, #{yn})
+	</insert>
+
+	<update id="update" parameterType="com.tt.traffic.domain.model.TrafficProjectModel" >
+        update traffic_project_model 
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="model_desc != null">
+                model_desc = #{model_desc},
+            </if>
+            <if test="observe_data_desc != null">
+                speed_data = #{speed_data},
+            </if>
+            <if test="observe_flow != null">
+                road_flow = #{road_flow},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime},
+            </if>
+            <if test="yn != null">
+                yn = #{yn}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="delete" parameterType="com.tt.traffic.domain.model.TrafficProjectModel">
+	        delete from traffic_project_model where id=#{id}
+    </delete>
+    <delete id="deleteByProjectId" parameterType="java.lang.Integer">
+	        delete from traffic_project_model where project_id=#{project_id}
+    </delete>
+</mapper>

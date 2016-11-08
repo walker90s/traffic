@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.traffic.dao.TrafficModelInterResultApproachMapper" >
+  <resultMap id="BaseResultMap" type="com.tt.traffic.domain.model.TrafficModelInterResultApproach" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="model_id" property="modelId" jdbcType="INTEGER" />
+    <result column="simulate_id" property="simulateId" jdbcType="INTEGER" />
+    <result column="cross_id" property="crossId" jdbcType="INTEGER" />
+    <result column="direction" property="direction" jdbcType="VARCHAR" />
+    <result column="Approach_Delay" property="approachDelay" jdbcType="REAL" />
+    <result column="Approach_LOS" property="approachLos" jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <sql id="Base_Column_List" >
+    Id, model_id,simulate_id, cross_id, direction, Approach_Delay, Approach_LOS
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from traffic_model_inter_result_approach
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getInterApproachModelResultCount" parameterType="java.util.Map" resultType="java.lang.Integer" >
+   select count(*) from traffic_model_inter_result_approach result 
+   where result.model_id = #{modelId,jdbcType=INTEGER}
+  </select>
+
+  <select id="getInterApproachModelResultPageList" parameterType="java.util.Map" resultType="java.util.HashMap" >
+   select result.*
+   from traffic_model_inter_result_approach result 
+   where result.model_id = #{modelId,jdbcType=INTEGER}
+   limit #{offset},#{limit}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from traffic_model_inter_result_approach
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.tt.traffic.domain.model.TrafficModelInterResultApproach" >
+    insert into traffic_model_inter_result_approach (Id, model_id,simulate_id, cross_id, 
+      direction, Approach_Delay, Approach_LOS
+      )
+    values (#{id,jdbcType=INTEGER}, #{modelId,jdbcType=INTEGER},#{simulateId,jdbcType=INTEGER}, #{crossId,jdbcType=INTEGER}, 
+      #{direction,jdbcType=VARCHAR}, #{approachDelay,jdbcType=REAL}, #{approachLos,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <insert id="insertList" parameterType="java.util.List" >
+     insert into traffic_model_inter_result_approach (Id, model_id,simulate_id, cross_id, 
+      direction, Approach_Delay, Approach_LOS
+      )
+    values 
+    <foreach collection="list" item="item" index="index" separator="," >  
+      (#{item.id,jdbcType=INTEGER}, #{item.modelId,jdbcType=INTEGER},#{item.simulateId,jdbcType=INTEGER}, #{item.crossId,jdbcType=INTEGER}, 
+      #{item.direction,jdbcType=VARCHAR}, #{item.approachDelay,jdbcType=REAL}, #{item.approachLos,jdbcType=VARCHAR}
+      )
+    </foreach> 
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.tt.traffic.domain.model.TrafficModelInterResultApproach" >
+    insert into traffic_model_inter_result_approach
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="modelId != null" >
+        model_id,
+      </if>
+      <if test="simulateId != null" >
+        simulate_id,
+      </if>
+      <if test="crossId != null" >
+        cross_id,
+      </if>
+      <if test="direction != null" >
+        direction,
+      </if>
+      <if test="approachDelay != null" >
+        Approach_Delay,
+      </if>
+      <if test="approachLos != null" >
+        Approach_LOS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="modelId != null" >
+        #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="simulateId != null" >
+        #{simulateId,jdbcType=INTEGER},
+      </if>
+      <if test="crossId != null" >
+        #{crossId,jdbcType=INTEGER},
+      </if>
+      <if test="direction != null" >
+        #{direction,jdbcType=VARCHAR},
+      </if>
+      <if test="approachDelay != null" >
+        #{approachDelay,jdbcType=REAL},
+      </if>
+      <if test="approachLos != null" >
+        #{approachLos,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+ 
+  <update id="updateByPrimaryKeySelective" parameterType="com.tt.traffic.domain.model.TrafficModelInterResultApproach" >
+    update traffic_model_inter_result_approach
+    <set >
+      <if test="modelId != null" >
+        model_id = #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="simulateId != null" >
+        simulate_id = #{simulateId,jdbcType=INTEGER},
+      </if>
+      <if test="crossId != null" >
+        cross_id = #{crossId,jdbcType=INTEGER},
+      </if>
+      <if test="direction != null" >
+        direction = #{direction,jdbcType=VARCHAR},
+      </if>
+      <if test="approachDelay != null" >
+        Approach_Delay = #{approachDelay,jdbcType=REAL},
+      </if>
+      <if test="approachLos != null" >
+        Approach_LOS = #{approachLos,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tt.traffic.domain.model.TrafficModelInterResultApproach" >
+    update traffic_model_inter_result_approach
+    set model_id = #{modelId,jdbcType=INTEGER},
+      simulate_id = #{simulateId,jdbcType=INTEGER},
+      cross_id = #{crossId,jdbcType=INTEGER},
+      direction = #{direction,jdbcType=VARCHAR},
+      Approach_Delay = #{approachDelay,jdbcType=REAL},
+      Approach_LOS = #{approachLos,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteBySimulateId" parameterType="java.lang.Integer" >
+    delete from traffic_model_inter_result_approach
+    where simulate_id = #{simulateId,jdbcType=INTEGER}
+  </delete>
+</mapper>

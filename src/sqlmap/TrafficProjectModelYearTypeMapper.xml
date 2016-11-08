@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tt.traffic.dao.TrafficProjectModelYearTypeMapper">
+	<sql id="trafficProjectModelYearTypeColumns">id,model_id,model_year_type,model_name,model_desc,road_network,traffic_array,lookup,road_flow,road_speed,cosResultMoe,createTime,updateTime,yn</sql>
+	<resultMap type="com.tt.traffic.domain.model.TrafficProjectModelYearType" id="trafficProjectModelYearTypeResultMap">
+		<id column="id" property="id"/>
+		<result column="model_id" property="model_id"/>
+		<result column="model_year_type" property="model_year_type"/>
+		<result column="model_name" property="model_name"/>
+		<result column="model_desc" property="model_desc"/>
+		<result column="road_network" property="road_network"/>
+		<result column="traffic_array" property="traffic_array"/>
+		<result column="lookup" property="lookup"/>
+		<result column="road_flow" property="road_flow"/>
+		<result column="road_speed" property="road_speed"/>
+		<result column="cosResultMoe" property="cosResultMoe"/>
+		<result column="createTime" property="createTime"/>
+		<result column="updateTime" property="updateTime"/>
+		<result column="yn" property="yn"/>
+	</resultMap>
+
+	<select id="queryListByModelIdModelYearType" parameterType="java.util.Map" resultMap="trafficProjectModelYearTypeResultMap">
+		select  <include refid="trafficProjectModelYearTypeColumns"/> from traffic_project_model_year_type where 1=1 
+		    <if test="model_id != null">
+                and model_id=#{model_id}
+            </if>
+			<if test="model_year_type != null">
+                and model_year_type=#{model_year_type}
+            </if>
+	</select>
+	<select id="queryById" parameterType="java.lang.Integer" resultType="com.tt.traffic.domain.model.TrafficProjectModelYearType">
+		select  <include refid="trafficProjectModelYearTypeColumns"/> from traffic_project_model_year_type where id=#{id}
+	</select>
+	<insert id="insert" parameterType="com.tt.traffic.domain.model.TrafficProjectModelYearType"  useGeneratedKeys="true" keyProperty="id">
+		insert into traffic_project_model_year_type(model_id,model_year_type,model_name,model_desc,road_network,traffic_array,lookup,road_flow,road_speed,cosResultMoe,createTime,updateTime,yn) 
+		values(#{model_id},#{model_year_type},#{model_name},#{model_desc},#{road_network},#{traffic_array},#{lookup},#{road_flow}, #{road_speed},#{cosResultMoe}, #{createTime},#{updateTime}, #{yn})
+	</insert>
+
+	<update id="update" parameterType="com.tt.traffic.domain.model.TrafficProjectModelYearType" >
+        update traffic_project_model_year_type 
+        <set>
+            <if test="model_name != null">
+                model_name = #{model_name},
+            </if>
+            <if test="model_desc != null">
+                model_desc = #{model_desc},
+            </if>
+            <if test="road_network != null">
+                road_network = #{road_network},
+            </if>
+            <if test="traffic_array != null">
+                traffic_array = #{traffic_array},
+            </if>
+            <if test="lookup != null">
+                lookup = #{lookup},
+            </if>
+            <if test="road_flow != null">
+                road_flow = #{road_flow},
+            </if>
+            <if test="road_speed != null">
+                road_speed = #{road_speed},
+            </if>
+            <if test="cosResultMoe != null">
+                cosResultMoe = #{cosResultMoe},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime},
+            </if>
+            <if test="yn != null">
+                yn = #{yn}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteById" parameterType="java.lang.Integer">
+	        delete from traffic_project_model_year_type where id=#{id}
+    </delete>
+    <delete id="deleteByModelId" parameterType="java.lang.Integer">
+	        delete from traffic_project_model_year_type where model_id=#{model_id}
+    </delete>
+</mapper>
