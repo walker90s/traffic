@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.traffic.dao.TrafficIntersectionFlowMapper" >
+  <resultMap id="BaseResultMap" type="com.tt.traffic.domain.model.TrafficIntersectionFlow" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="intersection_id" property="intersectionId" jdbcType="INTEGER" />
+    <result column="crossid" property="crossid" jdbcType="INTEGER" />
+    <result column="times" property="times" jdbcType="VARCHAR" />
+    <result column="north_flow" property="northFlow" jdbcType="INTEGER" />
+    <result column="north_direct" property="northDirect" jdbcType="INTEGER" />
+    <result column="north_left" property="northLeft" jdbcType="INTEGER" />
+    <result column="north_right" property="northRight" jdbcType="INTEGER" />
+    <result column="east_flow" property="eastFlow" jdbcType="INTEGER" />
+    <result column="east_direct" property="eastDirect" jdbcType="INTEGER" />
+    <result column="east_left" property="eastLeft" jdbcType="INTEGER" />
+    <result column="east_right" property="eastRight" jdbcType="INTEGER" />
+    <result column="south_flow" property="southFlow" jdbcType="INTEGER" />
+    <result column="south_direct" property="southDirect" jdbcType="INTEGER" />
+    <result column="south_left" property="southLeft" jdbcType="INTEGER" />
+    <result column="south_right" property="southRight" jdbcType="INTEGER" />
+    <result column="west_flow" property="westFlow" jdbcType="INTEGER" />
+    <result column="west_direct" property="westDirect" jdbcType="INTEGER" />
+    <result column="west_left" property="westLeft" jdbcType="INTEGER" />
+    <result column="west_right" property="westRight" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    Id, intersection_id, crossid, times, north_flow, north_direct, north_left, north_right, 
+    east_flow, east_direct, east_left, east_right, south_flow, south_direct, south_left, 
+    south_right, west_flow, west_direct, west_left, west_right
+  </sql>
+  <select id="getFlowListByCrossid" parameterType="int" resultMap="BaseResultMap">
+    SELECT
+      <include refid="Base_Column_List"/>
+    FROM
+      traffic_intersection_flow
+    WHERE
+      crossid = #{crossid} and yn=1
+  </select>
+</mapper>

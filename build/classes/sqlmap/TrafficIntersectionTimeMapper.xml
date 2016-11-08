@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.traffic.dao.TrafficIntersectionTimeMapper" >
+  <resultMap id="BaseResultMap" type="com.tt.traffic.domain.model.TrafficIntersectionTime" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="crossid" property="crossid" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="cycle" property="cycle" jdbcType="INTEGER" />
+    <result column="phase" property="phase" jdbcType="INTEGER" />
+    <result column="xlsid" property="xlsid" jdbcType="INTEGER" />
+    <result column="transcadid" property="transcadid" jdbcType="INTEGER" />
+    <result column="slink" property="slink" jdbcType="INTEGER" />
+    <result column="tlink" property="tlink" jdbcType="INTEGER" />
+    <result column="phaseg" property="phaseg" jdbcType="INTEGER" />
+    <result column="phasey" property="phasey" jdbcType="INTEGER" />
+    <result column="phaser" property="phaser" jdbcType="INTEGER" />
+    <result column="phasea" property="phasea" jdbcType="INTEGER" />
+    <result column="flow" property="flow" jdbcType="INTEGER" />
+  </resultMap>
+
+  <select id="getTimeListByCrossid" parameterType="int" resultMap="BaseResultMap">
+    SELECT
+      <include refid="Base_Column_List"/>
+    FROM
+    traffic_intersection_time
+    WHERE
+      yn = 1 and crossid=#{crossid}
+  </select>
+
+  <select id="getTimeListByCrossidGroupByPhase" parameterType="int" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    traffic_intersection_time
+    WHERE
+    yn = 1 and crossid=#{crossid}
+    GROUP BY phase
+  </select>
+
+
+  <sql id="Base_Column_List" >
+    Id, crossid, name, cycle, phase, xlsid, transcadid, slink, tlink, phaseg, phasey, 
+    phaser, phasea, flow
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from traffic_intersection_time
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from traffic_intersection_time
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.tt.traffic.domain.model.TrafficIntersectionTime" >
+    insert into traffic_intersection_time (Id, crossid, name, 
+      cycle, phase, xlsid, 
+      transcadid, slink, tlink, 
+      phaseg, phasey, phaser, 
+      phasea, flow)
+    values (#{id,jdbcType=INTEGER}, #{crossid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{cycle,jdbcType=INTEGER}, #{phase,jdbcType=INTEGER}, #{xlsid,jdbcType=INTEGER}, 
+      #{transcadid,jdbcType=INTEGER}, #{slink,jdbcType=INTEGER}, #{tlink,jdbcType=INTEGER}, 
+      #{phaseg,jdbcType=INTEGER}, #{phasey,jdbcType=INTEGER}, #{phaser,jdbcType=INTEGER}, 
+      #{phasea,jdbcType=INTEGER}, #{flow,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tt.traffic.domain.model.TrafficIntersectionTime" >
+    insert into traffic_intersection_time
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="crossid != null" >
+        crossid,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="cycle != null" >
+        cycle,
+      </if>
+      <if test="phase != null" >
+        phase,
+      </if>
+      <if test="xlsid != null" >
+        xlsid,
+      </if>
+      <if test="transcadid != null" >
+        transcadid,
+      </if>
+      <if test="slink != null" >
+        slink,
+      </if>
+      <if test="tlink != null" >
+        tlink,
+      </if>
+      <if test="phaseg != null" >
+        phaseg,
+      </if>
+      <if test="phasey != null" >
+        phasey,
+      </if>
+      <if test="phaser != null" >
+        phaser,
+      </if>
+      <if test="phasea != null" >
+        phasea,
+      </if>
+      <if test="flow != null" >
+        flow,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="crossid != null" >
+        #{crossid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cycle != null" >
+        #{cycle,jdbcType=INTEGER},
+      </if>
+      <if test="phase != null" >
+        #{phase,jdbcType=INTEGER},
+      </if>
+      <if test="xlsid != null" >
+        #{xlsid,jdbcType=INTEGER},
+      </if>
+      <if test="transcadid != null" >
+        #{transcadid,jdbcType=INTEGER},
+      </if>
+      <if test="slink != null" >
+        #{slink,jdbcType=INTEGER},
+      </if>
+      <if test="tlink != null" >
+        #{tlink,jdbcType=INTEGER},
+      </if>
+      <if test="phaseg != null" >
+        #{phaseg,jdbcType=INTEGER},
+      </if>
+      <if test="phasey != null" >
+        #{phasey,jdbcType=INTEGER},
+      </if>
+      <if test="phaser != null" >
+        #{phaser,jdbcType=INTEGER},
+      </if>
+      <if test="phasea != null" >
+        #{phasea,jdbcType=INTEGER},
+      </if>
+      <if test="flow != null" >
+        #{flow,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.tt.traffic.domain.model.TrafficIntersectionTime" >
+    update traffic_intersection_time
+    <set >
+      <if test="crossid != null" >
+        crossid = #{crossid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cycle != null" >
+        cycle = #{cycle,jdbcType=INTEGER},
+      </if>
+      <if test="phase != null" >
+        phase = #{phase,jdbcType=INTEGER},
+      </if>
+      <if test="xlsid != null" >
+        xlsid = #{xlsid,jdbcType=INTEGER},
+      </if>
+      <if test="transcadid != null" >
+        transcadid = #{transcadid,jdbcType=INTEGER},
+      </if>
+      <if test="slink != null" >
+        slink = #{slink,jdbcType=INTEGER},
+      </if>
+      <if test="tlink != null" >
+        tlink = #{tlink,jdbcType=INTEGER},
+      </if>
+      <if test="phaseg != null" >
+        phaseg = #{phaseg,jdbcType=INTEGER},
+      </if>
+      <if test="phasey != null" >
+        phasey = #{phasey,jdbcType=INTEGER},
+      </if>
+      <if test="phaser != null" >
+        phaser = #{phaser,jdbcType=INTEGER},
+      </if>
+      <if test="phasea != null" >
+        phasea = #{phasea,jdbcType=INTEGER},
+      </if>
+      <if test="flow != null" >
+        flow = #{flow,jdbcType=INTEGER},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tt.traffic.domain.model.TrafficIntersectionTime" >
+    update traffic_intersection_time
+    set crossid = #{crossid,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      cycle = #{cycle,jdbcType=INTEGER},
+      phase = #{phase,jdbcType=INTEGER},
+      xlsid = #{xlsid,jdbcType=INTEGER},
+      transcadid = #{transcadid,jdbcType=INTEGER},
+      slink = #{slink,jdbcType=INTEGER},
+      tlink = #{tlink,jdbcType=INTEGER},
+      phaseg = #{phaseg,jdbcType=INTEGER},
+      phasey = #{phasey,jdbcType=INTEGER},
+      phaser = #{phaser,jdbcType=INTEGER},
+      phasea = #{phasea,jdbcType=INTEGER},
+      flow = #{flow,jdbcType=INTEGER}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

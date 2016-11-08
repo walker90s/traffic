@@ -1,0 +1,38 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.traffic.dao.TrafficModelMapper">
+    <resultMap id="BaseResultMap" type="com.tt.traffic.domain.model.TrafficModel">
+        <result column="Id" property="id" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="TINYINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="area" property="area" jdbcType="VARCHAR"/>
+        <result column="target" property="target" jdbcType="VARCHAR"/>
+        <result column="speedData" property="speedData" jdbcType="VARCHAR"/>
+        <result column="flowData" property="flowData" jdbcType="VARCHAR"/>
+        <result column="modelPath" property="modelPath" jdbcType="VARCHAR"/>
+        <result column="resultPath" property="resultPath" jdbcType="VARCHAR"/>
+        <result column="chart" property="chart" jdbcType="VARCHAR"/>
+        <result column="crosslevel" property="crosslevel" jdbcType="VARCHAR"/>
+        <result column="linklevel" property="linklevel" jdbcType="VARCHAR"/>
+        <result column="yn" property="yn" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="columns">id, type, user_id,  content, name,area,target,speedData,flowData,modelPath,resultPath,chart,crosslevel,linklevel</sql>
+    <select id="getModelList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        traffic_model WHERE yn=1
+    </select>
+    <select id="getListByname" resultMap="BaseResultMap" parameterType="String">
+        SELECT
+        <include refid="columns"/>
+        FROM traffic_model where name=#{name} and yn=1
+    </select>
+    <update id="updateSpeedData" parameterType="com.tt.traffic.domain.model.TrafficModel" >
+       UPDATE traffic_model SET speedData=#{speedData} where Id=#{id}
+    </update>
+    <update id="updateFlowData" parameterType="com.tt.traffic.domain.model.TrafficModel" >
+        UPDATE traffic_model SET flowData=#{flowData} where Id=#{id}
+    </update>
+</mapper>

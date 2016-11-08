@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.traffic.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.tt.traffic.domain.model.User">
+        <result column="Id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="loginname" property="loginname" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="studentid" property="studentid" jdbcType="VARCHAR"/>
+        <result column="studentClass" property="studentClass" jdbcType="VARCHAR"/>
+        <result column="professional" property="professional" jdbcType="VARCHAR"/>
+		<result column="registeredTime" property="registeredTime" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="yn" property="yn" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        Id, name,loginname,password,studentid,studentClass,professional,registeredTime,type,yn
+    </sql>
+    <select id="getUserList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user where yn=1 and type=0 limit #{offset},#{limit}
+    </select>
+
+    <select id="ExportExcalUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user where yn=1
+    </select>
+
+    <select id="selectCount" resultType="Integer">
+        SELECT COUNT(id) FROM tb_user where yn=1
+    </select>
+    <update id="deleteUser" parameterType="Integer">
+        update tb_user set yn=0 where id=#{id}
+    </update>
+
+    <select id="loginInfo" parameterType="com.tt.traffic.domain.model.User" resultMap="BaseResultMap">
+        SELECT * from tb_user WHERE yn=1
+        <if test="loginname!=null and loginname!=''">
+            and loginname=#{loginname}
+        </if>
+        <if test="password!=null and password!=''">
+            and password=#{password}
+        </if>
+    </select>
+
+    <insert id="insertUser" parameterType="com.tt.traffic.domain.model.User">
+        insert into tb_user(name,loginname,password,studentid,studentClass,registeredTime,professional,type,yn) VALUES(#{name},#{loginname},#{password},#{studentid},#{studentClass},#{registeredTime},#{professional},0,1)
+    </insert>
+
+</mapper>

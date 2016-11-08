@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.traffic.dao.TrafficModelInterResultTurnMapper" >
+  <resultMap id="BaseResultMap" type="com.tt.traffic.domain.model.TrafficModelInterResultTurn" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="model_id" property="modelId" jdbcType="INTEGER" />
+    <result column="simulate_id" property="simulateId" jdbcType="INTEGER" />
+    <result column="cross_id" property="crossId" jdbcType="INTEGER" />
+    <result column="turn" property="turn" jdbcType="VARCHAR" />
+    <result column="Volume" property="volume" jdbcType="INTEGER" />
+    <result column="Flow" property="flow" jdbcType="INTEGER" />
+    <result column="vc_Ratio" property="vcRatio" jdbcType="REAL" />
+    <result column="Control_Delay" property="controlDelay" jdbcType="REAL" />
+    <result column="Queue_Delay" property="queueDelay" jdbcType="REAL" />
+    <result column="Total_Delay" property="totalDelay" jdbcType="REAL" />
+    <result column="LOS" property="los" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    Id, model_id,simulate_id, cross_id, turn, Volume, Flow, vc_Ratio, Control_Delay, Queue_Delay, 
+    Total_Delay, LOS
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from traffic_model_inter_result_turn
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  
+    <select id="getInterTurnModelResultCount" parameterType="java.util.Map" resultType="java.lang.Integer" >
+   select count(*) from traffic_model_inter_result_turn result 
+   where result.model_id = #{modelId,jdbcType=INTEGER}
+  </select>
+
+  <select id="getInterTurnModelResultPageList" parameterType="java.util.Map" resultType="java.util.HashMap" >
+   select result.*
+   from traffic_model_inter_result_turn result 
+   where result.model_id = #{modelId,jdbcType=INTEGER}
+   limit #{offset},#{limit}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from traffic_model_inter_result_turn
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+ 
+  <insert id="insert" parameterType="com.tt.traffic.domain.model.TrafficModelInterResultTurn" >
+    insert into traffic_model_inter_result_turn (Id, model_id,simulate_id, cross_id, 
+      turn, Volume, Flow, 
+      vc_Ratio, Control_Delay, Queue_Delay, 
+      Total_Delay, LOS)
+    values (#{id,jdbcType=INTEGER}, #{modelId,jdbcType=INTEGER},#{simulateId,jdbcType=INTEGER}, #{crossId,jdbcType=INTEGER}, 
+      #{turn,jdbcType=VARCHAR}, #{volume,jdbcType=INTEGER}, #{flow,jdbcType=INTEGER}, 
+      #{vcRatio,jdbcType=REAL}, #{controlDelay,jdbcType=REAL}, #{queueDelay,jdbcType=REAL}, 
+      #{totalDelay,jdbcType=REAL}, #{los,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertList" parameterType="java.util.List" >
+     insert into traffic_model_inter_result_turn (Id, model_id,simulate_id, cross_id, 
+      turn, Volume, Flow, 
+      vc_Ratio, Control_Delay, Queue_Delay, 
+      Total_Delay, LOS)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >  
+      (#{item.id,jdbcType=INTEGER}, #{item.modelId,jdbcType=INTEGER},#{item.simulateId,jdbcType=INTEGER}, #{item.crossId,jdbcType=INTEGER}, 
+      #{item.turn,jdbcType=VARCHAR}, #{item.volume,jdbcType=INTEGER}, #{item.flow,jdbcType=INTEGER}, 
+      #{item.vcRatio,jdbcType=REAL}, #{item.controlDelay,jdbcType=REAL}, #{item.queueDelay,jdbcType=REAL}, 
+      #{item.totalDelay,jdbcType=REAL}, #{item.los,jdbcType=VARCHAR})
+    </foreach> 
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.tt.traffic.domain.model.TrafficModelInterResultTurn" >
+    insert into traffic_model_inter_result_turn
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="modelId != null" >
+        model_id,
+      </if>
+      <if test="simulateId != null" >
+        simulate_id,
+      </if>
+      <if test="crossId != null" >
+        cross_id,
+      </if>
+      <if test="turn != null" >
+        turn,
+      </if>
+      <if test="volume != null" >
+        Volume,
+      </if>
+      <if test="flow != null" >
+        Flow,
+      </if>
+      <if test="vcRatio != null" >
+        vc_Ratio,
+      </if>
+      <if test="controlDelay != null" >
+        Control_Delay,
+      </if>
+      <if test="queueDelay != null" >
+        Queue_Delay,
+      </if>
+      <if test="totalDelay != null" >
+        Total_Delay,
+      </if>
+      <if test="los != null" >
+        LOS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="modelId != null" >
+        #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="simulateId != null" >
+        #{simulateId,jdbcType=INTEGER},
+      </if>
+      <if test="crossId != null" >
+        #{crossId,jdbcType=INTEGER},
+      </if>
+      <if test="turn != null" >
+        #{turn,jdbcType=VARCHAR},
+      </if>
+      <if test="volume != null" >
+        #{volume,jdbcType=INTEGER},
+      </if>
+      <if test="flow != null" >
+        #{flow,jdbcType=INTEGER},
+      </if>
+      <if test="vcRatio != null" >
+        #{vcRatio,jdbcType=REAL},
+      </if>
+      <if test="controlDelay != null" >
+        #{controlDelay,jdbcType=REAL},
+      </if>
+      <if test="queueDelay != null" >
+        #{queueDelay,jdbcType=REAL},
+      </if>
+      <if test="totalDelay != null" >
+        #{totalDelay,jdbcType=REAL},
+      </if>
+      <if test="los != null" >
+        #{los,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.tt.traffic.domain.model.TrafficModelInterResultTurn" >
+    update traffic_model_inter_result_turn
+    <set >
+      <if test="modelId != null" >
+        model_id = #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="simulateId != null" >
+        simulate_id = #{simulateId,jdbcType=INTEGER},
+      </if>
+      <if test="crossId != null" >
+        cross_id = #{crossId,jdbcType=INTEGER},
+      </if>
+      <if test="turn != null" >
+        turn = #{turn,jdbcType=VARCHAR},
+      </if>
+      <if test="volume != null" >
+        Volume = #{volume,jdbcType=INTEGER},
+      </if>
+      <if test="flow != null" >
+        Flow = #{flow,jdbcType=INTEGER},
+      </if>
+      <if test="vcRatio != null" >
+        vc_Ratio = #{vcRatio,jdbcType=REAL},
+      </if>
+      <if test="controlDelay != null" >
+        Control_Delay = #{controlDelay,jdbcType=REAL},
+      </if>
+      <if test="queueDelay != null" >
+        Queue_Delay = #{queueDelay,jdbcType=REAL},
+      </if>
+      <if test="totalDelay != null" >
+        Total_Delay = #{totalDelay,jdbcType=REAL},
+      </if>
+      <if test="los != null" >
+        LOS = #{los,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tt.traffic.domain.model.TrafficModelInterResultTurn" >
+    update traffic_model_inter_result_turn
+    set model_id = #{modelId,jdbcType=INTEGER},
+      simulate_id = #{simulateId,jdbcType=INTEGER},
+      cross_id = #{crossId,jdbcType=INTEGER},
+      turn = #{turn,jdbcType=VARCHAR},
+      Volume = #{volume,jdbcType=INTEGER},
+      Flow = #{flow,jdbcType=INTEGER},
+      vc_Ratio = #{vcRatio,jdbcType=REAL},
+      Control_Delay = #{controlDelay,jdbcType=REAL},
+      Queue_Delay = #{queueDelay,jdbcType=REAL},
+      Total_Delay = #{totalDelay,jdbcType=REAL},
+      LOS = #{los,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteBySimulateId" parameterType="java.lang.Integer" >
+    delete from traffic_model_inter_result_turn
+    where simulate_id = #{simulateId,jdbcType=INTEGER}
+  </delete>
+</mapper>

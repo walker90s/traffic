@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.traffic.dao.TrafficModelBigResultMapper" >
+  <resultMap id="BaseResultMap" type="com.tt.traffic.domain.model.TrafficModelBigResult" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="simulate_id" property="simulateId" jdbcType="INTEGER" />
+    <result column="model_id" property="modelId" jdbcType="INTEGER" />
+    <result column="road_id" property="roadId" jdbcType="INTEGER" />
+    <result column="ab_flow" property="abFlow" jdbcType="REAL" />
+    <result column="ba_flow" property="baFlow" jdbcType="REAL" />
+    <result column="tot_flow" property="totFlow" jdbcType="REAL" />
+    <result column="ab_time" property="abTime" jdbcType="REAL" />
+    <result column="ba_time" property="baTime" jdbcType="REAL" />
+    <result column="max_time" property="maxTime" jdbcType="REAL" />
+    <result column="ab_voc" property="abVoc" jdbcType="REAL" />
+    <result column="ba_voc" property="baVoc" jdbcType="REAL" />
+    <result column="max_voc" property="maxVoc" jdbcType="REAL" />
+    <result column="ab_vkmt" property="abVkmt" jdbcType="REAL" />
+    <result column="ba_vkmt" property="baVkmt" jdbcType="VARCHAR" />
+    <result column="tot_vkmt" property="totVkmt" jdbcType="REAL" />
+    <result column="ab_vht" property="abVht" jdbcType="REAL" />
+    <result column="ba_vht" property="baVht" jdbcType="REAL" />
+    <result column="tot_vht" property="totVht" jdbcType="REAL" />
+    <result column="ab_speed" property="abSpeed" jdbcType="REAL" />
+    <result column="ba_speed" property="baSpeed" jdbcType="REAL" />
+    <result column="ab_vdf" property="abVdf" jdbcType="REAL" />
+    <result column="ba_vdf" property="baVdf" jdbcType="REAL" />
+    <result column="max_vdf" property="maxVdf" jdbcType="REAL" />
+    <result column="yn" property="yn" jdbcType="TINYINT" />
+    <result column="ab_geom" property="abGeom" jdbcType="LONGVARCHAR" />
+    <result column="ba_geom" property="baGeom" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    br.Id, br.simulate_id, br.model_id, br.road_id, br.ab_flow, br.ba_flow, br.tot_flow, br.ab_time, br.ba_time, br.max_time, br.ab_voc,
+    br.ba_voc, br.max_voc, br.ab_vkmt, br.ba_vkmt, br.tot_vkmt, br.ab_vht, br.ba_vht, br.tot_vht, br.ab_speed, br.ba_speed,
+    br.ab_vdf, br.ba_vdf, br.max_vdf, br.yn, b.ab_geom, b.ba_geom
+  </sql>
+  <select id="selectByResultId" resultMap="BaseResultMap" parameterType="int" >
+    select
+      <include refid="Base_Column_List" />
+    from
+      traffic_model_big_result br left join traffic_model_big b on br.road_id = b.road_id
+    WHERE
+      br.simulate_id=#{simulateId}
+  </select>
+
+  <select id="selectChartStatisticsCountByCon" parameterType="java.util.Map" resultType="java.lang.Integer" >
+   select count(*) from traffic_simulate_base base, traffic_model_big_result result,traffic_model_big big   
+   where result.simulate_id = base.id and result.id = big.id 
+   and base.id = #{simulateId,jdbcType=INTEGER} 
+   and big.link_type in( ${linkType} )
+  </select>
+
+  <select id="selectChartStatisticsByCon" parameterType="java.util.Map" resultType="java.util.HashMap" >
+   select result.id,big.roadname,big.length,big.link_type,result.ab_flow,result.ba_flow,result.ab_voc,result.ba_voc 
+   from traffic_simulate_base base, traffic_model_big_result result,traffic_model_big big   
+   where result.simulate_id = base.id and result.id = big.id 
+   and base.id = #{simulateId,jdbcType=INTEGER} 
+   and big.link_type in( ${linkType} )
+   order by result.id desc 
+   limit #{offset},#{limit}
+  </select>
+  
+   <select id="selectChartSumStatisticsByCon" parameterType="java.util.Map" resultType="java.util.HashMap" >
+   select result.id,big.length,big.link_type,result.ab_flow,result.ba_flow,result.ab_voc,result.ba_voc 
+   from traffic_simulate_base base, traffic_model_big_result result,traffic_model_big big 
+   where result.simulate_id = base.id and result.id = big.id 
+   and base.id = #{simulateId,jdbcType=INTEGER} 
+   and big.link_type in( ${linkType} )
+  </select>
+  
+  <delete id="deleteBySimulateId" parameterType="java.lang.Integer" >
+    delete from traffic_model_big_result
+    where simulate_id = #{simulateId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tt.traffic.domain.model.TrafficModelBigResult" >
+    insert into traffic_model_big_result (Id,simulate_id, model_id, road_id, 
+      ab_flow, ba_flow, tot_flow, ab_time, 
+      ba_time, max_time, ab_voc, ba_voc, 
+      max_voc, ab_vkmt, ba_vkmt, tot_vkmt, 
+      ab_vht, ba_vht, tot_vht, ab_speed, 
+      ba_speed, ab_vdf, ba_vdf, max_vdf, 
+      yn)
+    values (#{id,jdbcType=INTEGER},#{simulateId,jdbcType=INTEGER}, #{modelId,jdbcType=INTEGER}, #{roadId,jdbcType=INTEGER}, 
+      #{abFlow,jdbcType=REAL}, #{baFlow,jdbcType=REAL}, #{totFlow,jdbcType=REAL}, #{abTime,jdbcType=REAL}, 
+      #{baTime,jdbcType=REAL}, #{maxTime,jdbcType=REAL}, #{abVoc,jdbcType=REAL}, #{baVoc,jdbcType=REAL}, 
+      #{maxVoc,jdbcType=REAL}, #{abVkmt,jdbcType=REAL}, #{baVkmt,jdbcType=VARCHAR}, #{totVkmt,jdbcType=REAL}, 
+      #{abVht,jdbcType=REAL}, #{baVht,jdbcType=REAL}, #{totVht,jdbcType=REAL}, #{abSpeed,jdbcType=REAL}, 
+      #{baSpeed,jdbcType=REAL}, #{abVdf,jdbcType=REAL}, #{baVdf,jdbcType=REAL}, #{maxVdf,jdbcType=REAL}, 
+      #{yn,jdbcType=TINYINT})
+  </insert>
+  
+  <insert id="insertList" parameterType="java.util.List" >
+    insert into traffic_model_big_result (Id,simulate_id, model_id, road_id, 
+      ab_flow, ba_flow, tot_flow, ab_time, 
+      ba_time, max_time, ab_voc, ba_voc, 
+      max_voc, ab_vkmt, ba_vkmt, tot_vkmt, 
+      ab_vht, ba_vht, tot_vht, ab_speed, 
+      ba_speed, ab_vdf, ba_vdf, max_vdf, 
+      yn)
+    values 
+    <foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.id,jdbcType=INTEGER},#{item.simulateId,jdbcType=INTEGER}, #{item.modelId,jdbcType=INTEGER}, #{item.roadId,jdbcType=INTEGER}, 
+      #{item.abFlow,jdbcType=REAL}, #{item.baFlow,jdbcType=REAL}, #{item.totFlow,jdbcType=REAL}, #{item.abTime,jdbcType=REAL}, 
+      #{item.baTime,jdbcType=REAL}, #{item.maxTime,jdbcType=REAL}, #{item.abVoc,jdbcType=REAL}, #{item.baVoc,jdbcType=REAL}, 
+      #{item.maxVoc,jdbcType=REAL}, #{item.abVkmt,jdbcType=REAL}, #{item.baVkmt,jdbcType=VARCHAR}, #{item.totVkmt,jdbcType=REAL}, 
+      #{item.abVht,jdbcType=REAL}, #{item.baVht,jdbcType=REAL}, #{item.totVht,jdbcType=REAL}, #{item.abSpeed,jdbcType=REAL}, 
+      #{item.baSpeed,jdbcType=REAL}, #{item.abVdf,jdbcType=REAL}, #{item.baVdf,jdbcType=REAL}, #{item.maxVdf,jdbcType=REAL}, 
+      #{item.yn,jdbcType=TINYINT})
+    </foreach> 
+  </insert>
+</mapper>

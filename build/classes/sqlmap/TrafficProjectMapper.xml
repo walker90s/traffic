@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tt.traffic.dao.TrafficProjectMapper">
+	<sql id="trafficProjectColumns">id,user_id,projectName, proBackground, need_goals, createTime,updateTime, yn</sql>
+	<resultMap type="com.tt.traffic.domain.model.TrafficProject" id="trafficProjectResultMap">
+		<id column="id" property="id"/>
+		<result column="user_id" property="user_id"/>
+		<result column="projectName" property="projectName"/>
+		<result column="proBackground" property="proBackground"/>
+		<result column="need_goals" property="need_goals"/>
+		<result column="createTime" property="createTime"/>
+		<result column="updateTime" property="updateTime"/>
+		<result column="yn" property="yn"/>
+	</resultMap>
+
+	<select id="queryTrafficProjectAll" resultMap="trafficProjectResultMap">
+		select  <include refid="trafficProjectColumns"/> from traffic_project 
+	</select>
+	
+	<select id="queryTrafficIdByName" parameterType="String" resultType="Integer">
+		select id from traffic_project where projectName=#{projectName}
+	</select>
+	
+	<select id="queryTrafficProjectById" parameterType="java.lang.Integer" resultType="com.tt.traffic.domain.model.TrafficProject">
+		select  <include refid="trafficProjectColumns"/> from traffic_project where id=#{id}
+	</select>
+
+	<insert id="insert" parameterType="com.tt.traffic.domain.model.TrafficProject"  useGeneratedKeys="true" keyProperty="id">
+		insert into traffic_project(user_id,projectName,proBackground,need_goals,createTime,updateTime,yn) values(#{user_id},#{projectName}, #{proBackground},#{need_goals}, #{createTime},#{updateTime}, #{yn})
+	</insert>
+
+	<update id="update" parameterType="com.tt.traffic.domain.model.TrafficProject" >
+        update traffic_project 
+        <set>
+            <if test="projectName != null">
+                projectName = #{projectName},
+            </if>
+            <if test="proBackground != null">
+                proBackground = #{proBackground},
+            </if>
+            <if test="need_goals != null">
+                need_goals = #{need_goals},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime},
+            </if>
+            <if test="yn != null">
+                yn = #{yn},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="com.tt.traffic.domain.model.TrafficProject" >
+        delete from traffic_project where id=#{id}
+    </delete>
+    <delete id="">
+    </delete>
+</mapper>
