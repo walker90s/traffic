@@ -1,0 +1,11 @@
+.subMenu_gs_macro{ position: absolute; left: 260px; top: 300px; width: 600px; height: 230px; background-color: #1874CD; z-index: 1001; visibility: visible; zoom: 1; display: none; }
+.subMenu_gs_micro{ position: absolute; left: 260px; top: 450px; width: 600px; height: 230px; background-color: #1874CD; z-index: 1001; visibility: visible; zoom: 1; display: none; }
+
+.gsButton1{ width: 150px;height: 30px;;background-color:yellow;font-size: 14px; }
+.gsButton2{ width: 150px;height: 30px;;background-color:#FFD700;font-size: 12px; }
+.gsButton3{ width: 120px;height: 30px;;background-color:greenyellow;font-size: 12px; }
+.gsButton4{ width: 75px;height: 30px;;background-color:greenyellow;font-size: 12px; }
+.gsInput1{ width: 70px;height: 23px;;font-size: 12px; }
+.gsButtonResult{ width: 180px;height: 30px;;background-color:red;font-size: 14px; }
+
+.subMenu_gs_macro_result{ position: absolute; left: 260px; top: 650px; width: 1100px; height: 300px; background-color: #1874CD; z-index: 1001; visibility: visible; zoom: 1; display: none; }
