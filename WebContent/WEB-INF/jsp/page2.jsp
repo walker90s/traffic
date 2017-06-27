@@ -112,7 +112,7 @@
         </div>
         <div class="h_r">
         	<div class="h_r_t">
-				<a href="/page2?locale=zh_CN" class="main_right">中文</a>/<a href="/page2?locale=en_US" class="main_right">English</a>
+				<a href="./page2?locale=zh_CN" class="main_right">中文</a>/<a href="./page2?locale=en_US" class="main_right">English</a>
 				<c:if test="${type!=null}">
 					<a href="quitting.html" title="<spring:message code='message.exit' />" class="main_right"><i class="fa fa-power-off m_r10"></i><spring:message code="message.exit" /></a>
 				</c:if>

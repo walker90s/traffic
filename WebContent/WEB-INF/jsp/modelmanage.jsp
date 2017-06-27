@@ -50,11 +50,12 @@
 <!--头部-->
 <div class="header">
   <div class="logo main_left">
-    <div id="now_time">2015年,9月12日,星期六</div>
+  <!-- 2015年,9月12日,星期六 -->
+   <div id="now_time"></div>
   </div>
   <div class="h_r">
     <div class="h_r_t">
-      <a href="/modelmanage?locale=zh_CN" class="main_right">中文</a>/<a href="/modelmanage?locale=en_US" class="main_right">English</a>
+      <a href="./modelmanage?locale=zh_CN" class="main_right">中文</a>/<a href="./modelmanage?locale=en_US" class="main_right">English</a>
       <c:if test="${type!=null}">
         <a href="quitting.html" title="<spring:message code='message.exit' />" class="main_right"><i class="fa fa-power-off m_r10"></i><spring:message code="message.exit" /></a>
       </c:if>
@@ -114,7 +115,7 @@
 			  </button>
 			  <ul class="animenu__nav">
 				<li>
-				  <a href="#" style="line-height:10px;">选择项目</a>
+				  <a href="#" style="line-height:10px;"><spring:message code="message.chooseProject" /></a>
 				  <ul id="projectListUl" class="animenu__nav__child">
 				<!-- 	<li><a href="" style="line-height:10px;">添加新项目</a></li> -->
 				  </ul>
@@ -184,27 +185,27 @@
         <div  class="msk_b_1" id="project" style=display:none;>
         <div > <input id="proId" type="hidden" ></input><input id="proModelId" type="hidden" ></input></div><br>
         
-          <div > <h2 style=display:inline-block;background-color:#5C4874;width:53px;height:20px><p>项目名称</p></h2>&nbsp&nbsp&nbsp<input id="proName" type="text" ></input></div><br>
-		  <div > <h4 style=display:inline-block;background-color:#5C4874;width:53px;height:20px><p>项目介绍</p></h4>&nbsp&nbsp&nbsp
-		  <h2 style=display:inline-block;background-color:#85A7D1;width:50px;height:18px>项目背景</h2>&nbsp&nbsp&nbsp<input id="proBackground" type="text"  ></input>
+          <div > <h2 style=display:inline-block;background-color:#5C4874;width:53px;height:20px><spring:message code="message.projectName" /></h2>&nbsp&nbsp&nbsp<input id="proName" type="text" ></input></div><br>
+		  <div > <h4 style=display:inline-block;background-color:#5C4874;width:53px;height:20px><spring:message code="message.projectIntroduction" /></h4>&nbsp&nbsp&nbsp
+		  <h2 style=display:inline-block;background-color:#85A7D1;width:50px;height:18px><spring:message code="message.projectBackground" /></h2>&nbsp&nbsp&nbsp<input id="proBackground" type="text"  ></input>
 		  <br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-		  <h2 style=display:inline-block;background-color:#85A7D1;width:90px;height:18px>项目需求与目标</h2>&nbsp&nbsp&nbsp<input id="proNeed_goal" type="text"  ></input>&nbsp&nbsp&nbsp<button onclick="addTrafficProject();">保存</button>
+		  <h2 style=display:inline-block;background-color:#85A7D1;width:90px;height:18px><spring:message code="message.projectPurpose" /></h2>&nbsp&nbsp&nbsp<input id="proNeed_goal" type="text"  ></input>&nbsp&nbsp&nbsp<button onclick="addTrafficProject();"><spring:message code="message.save" /></button>
 		  </div>
-		   <div > <h4 style=display:inline-block;background-color:#5C4874;width:53px;height:20px><p>模型种类</p></h4>&nbsp&nbsp&nbsp
+		   <div > <h4 style=display:inline-block;background-color:#5C4874;width:53px;height:20px><p><spring:message code="message.modelType" /></p></h4>&nbsp&nbsp&nbsp
 		  		
-		  		<label><input onclick="getModelType()" name="model" type="radio" value="1" />宏观模型 </label> 
-				<label><input onclick="getModelType()" name="model" type="radio" value="2" />中观模型 </label> 
-				<label><input onclick="getModelType()" name="model" type="radio" value="3" />微观模型 </label> 
-				<label><input onclick="getModelType()" name="model" type="radio" value="4" />路口模型 </label> 
+		  		<label><input onclick="getModelType()" name="model" type="radio" value="1" /><spring:message code="message.macroscopicModel" /></label> 
+				<label><input onclick="getModelType()" name="model" type="radio" value="2" /><spring:message code="message.mediumModel" /></label> 
+				<label><input onclick="getModelType()" name="model" type="radio" value="3" /><spring:message code="message.microscopicModel" /></label> 
+				<label><input onclick="getModelType()" name="model" type="radio" value="4" /><spring:message code="message.intersectionModel" /></label> 
 		  		
 		  </div><br>
-		  <div id="chose"> <h4 style=display:inline-block;background-color:#5C4874;width:53px;height:20px><p>观测流量</p></h4>&nbsp&nbsp&nbsp
+		  <div id="chose"> <h4 style=display:inline-block;background-color:#5C4874;width:53px;height:20px><p><spring:message code="message.observedData" /></p></h4>&nbsp&nbsp&nbsp
 		  
 		  
-		  <h2 style=display:inline-block;background-color:#85A7D1;width:50px;height:18px>路段流量</h2>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<div style=display:inline-block><input id="road_flow" name="shpfile" type="file"/><input id="flow" name=""></input></div><button onclick="ajaxFileUpload('road_flow','flow');">上传</button>
+		  <h2 style=display:inline-block;background-color:#85A7D1;width:50px;height:18px><spring:message code="message.linkFlow" /></h2>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<div style=display:inline-block><input id="road_flow" name="shpfile" type="file"/><input id="flow" name=""></input></div><button onclick="ajaxFileUpload('road_flow','flow');"><spring:message code="message.upload" /></button>
 		  <br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-		  <h2 style=display:inline-block;background-color:#85A7D1;width:85px;height:18px>速度数据(可选)</h2>&nbsp&nbsp<div style=display:inline-block><input id="speed_data" name="shpfile" type="file"/><input id="speed" name=""></input></div><button onclick="ajaxFileUpload('speed_data','speed');">上传</button>
-		  <button onclick="addTrafficProjectModel();">保存</button>
+		  <h2 style=display:inline-block;background-color:#85A7D1;width:85px;height:18px><spring:message code="message.speedData" /></h2>&nbsp&nbsp<div style=display:inline-block><input id="speed_data" name="shpfile" type="file"/><input id="speed" name=""></input></div><button onclick="ajaxFileUpload('speed_data','speed');"><spring:message code="message.upload" /></button>
+		  <button onclick="addTrafficProjectModel();"><spring:message code="message.save" /></button>
 		  <!-- onclick="document.getElementById('detail').style.display=='none'?document.getElementById('detail').style.display='block':document.getElementById('detail').style.display='none'" -->
 		  </div><br>
 		  
@@ -212,10 +213,10 @@
 		  
 		  <div id="detail" style=background-color:#FAC090;height:470px class="msk_b_1">
 		  
-		   <div > <h4 style=display:inline-block;background-color:#5C4874;width:65px;height:20px><p>模型种类</p></h4>&nbsp&nbsp&nbsp
+		   <div > <h4 style=display:inline-block;background-color:#5C4874;width:65px;height:20px><p><spring:message code="message.modelType" /></p></h4>&nbsp&nbsp&nbsp
 		  		
-		  		<label><input onclick="" name="yearModel" type="radio" value="1" />基础年模型 </label> 
-				<label><input onclick="" name="yearModel" type="radio" value="2" />未来年模型 </label> 
+		  		<label><input onclick="" name="yearModel" type="radio" value="1" /><spring:message code="message.demandBase" /></label> 
+				<label><input onclick="" name="yearModel" type="radio" value="2" /><spring:message code="message.demandHorizon" /> </label> 
 		  		
 		  </div><br>
 		  <!-- 
@@ -232,7 +233,7 @@
 		  <div>
 			  <ul class="animenu__nav">
 				<li style="width:auto">
-				  <a href="#">选择模型</a>
+				  <a href="#"><spring:message code="message.modelSelection" /></a>
 				  <ul id="chooseModel" class="animenu__nav__child">
 				  </ul>
 				</li>     
@@ -246,20 +247,20 @@
 		  <br>
 		  
 			  <div id="add" class="msk_b_1" style=background-color:#4F81BD;height:350px>
-			  <div> <h2 style=background-color:#85A7D1;width:217px;height:20px>模型名称&nbsp&nbsp&nbsp<input id="modelName" type="text"  value=""></input></h2></div>
+			  <div> <h2 style=background-color:#85A7D1;width:217px;height:20px><spring:message code="message.modelName" />&nbsp&nbsp&nbsp<input id="modelName" type="text"  value=""></input></h2></div>
 			  <br>
-			  <div> <h2 style=background-color:#85A7D1;width:217px;height:20px>模型描述&nbsp&nbsp&nbsp<input id="modelDesc" type="text"  value=""></input></h2></div>
+			  <div> <h2 style=background-color:#85A7D1;width:217px;height:20px><spring:message code="message.modelDescription" />&nbsp&nbsp&nbsp<input id="modelDesc" type="text"  value=""></input></h2></div>
 			  <br>
-			  <div> <h2 style=display:inline-block;background-color:#85A7D1;width:55px;height:20px>路网文件</h2></div><div style=display:inline-block><input id="gis" name="shpfile" type="file"/><input id="Gis" name=""></input></div><button onclick="ajaxFileUpload('gis','Gis');">上传</button>
+			  <div> <h2 style=display:inline-block;background-color:#85A7D1;width:55px;height:20px><spring:message code="message.networkFile" /></h2></div><div style=display:inline-block><input id="gis" name="shpfile" type="file"/><input id="Gis" name=""></input></div><button onclick="ajaxFileUpload('gis','Gis');"><spring:message code="message.save" /></button>
 			  <br>
-			  <div> <h2 style=display:inline-block;background-color:#85A7D1;width:75px;height:20px>交通需求矩阵</h2></div><div style=display:inline-block><input id="traffic_demand" name="matrix" type="file"/><input id="trafficMatrix" name=""></input></div><button onclick="ajaxFileUpload('traffic_demand','trafficMatrix');">上传</button>
+			  <div> <h2 style=display:inline-block;background-color:#85A7D1;width:75px;height:20px><spring:message code="message.trafficDemand" /></h2></div><div style=display:inline-block><input id="traffic_demand" name="matrix" type="file"/><input id="trafficMatrix" name=""></input></div><button onclick="ajaxFileUpload('traffic_demand','trafficMatrix');"><spring:message code="message.save" /></button>
 			  <br>
-			  <div> <h2 style=display:inline-block;background-color:#85A7D1;width:55px;height:20px>仿真结果</h2></div>
-			  	<div style=display:inline-block><input id="traffic_flows" name="shpfile" type="file"/><input id="roadFlow" name=""></input></div><button onclick="ajaxFileUpload('traffic_flows','roadFlow');">上传路段流量文件</button>
-			 	<div style=display:inline-block><input id="road_speed" name="shpfile" type="file"/><input id="roadSpeed" name=""></input></div><button onclick="ajaxFileUpload('road_speed','roadSpeed');">上传路段速度文件</button>
-			  	<div style=display:inline-block><input id="road_result" name="shpfile" type="file"/><input id="results" name=""></input></div><button onclick="ajaxFileUpload('road_result','results');">上传路段结果文件</button>
-			  	<div style=display:inline-block><input id="road_lookup" name="shpfile" type="file"/><input id="lookup" name=""></input></div><button onclick="ajaxFileUpload('road_lookup','lookup');">上传路段对照文件</button>
-			  	<button onclick="addYearsModel();">保存</button>
+			  <div> <h2 style=display:inline-block;background-color:#85A7D1;width:55px;height:20px><spring:message code="message.simulationResults" /></h2></div>
+			  	<div style=display:inline-block><input id="traffic_flows" name="shpfile" type="file"/><input id="roadFlow" name=""></input></div><button onclick="ajaxFileUpload('traffic_flows','roadFlow');"><spring:message code="message.uploadLinkFlow" /></button>
+			 	<div style=display:inline-block><input id="road_speed" name="shpfile" type="file"/><input id="roadSpeed" name=""></input></div><button onclick="ajaxFileUpload('road_speed','roadSpeed');"><spring:message code="message.uploadSpeed" /></button>
+			  	<div style=display:inline-block><input id="road_result" name="shpfile" type="file"/><input id="results" name=""></input></div><button onclick="ajaxFileUpload('road_result','results');"><spring:message code="message.uploadSectionMOE" /></button>
+			  	<div style=display:inline-block><input id="road_lookup" name="shpfile" type="file"/><input id="lookup" name=""></input></div><button onclick="ajaxFileUpload('road_lookup','lookup');"><spring:message code="message.uploadLinkLookup" /></button>
+			  	<button onclick="addYearsModel();"><spring:message code="message.save" /></button>
 			  </div>	
 		  				
 		  				
@@ -312,7 +313,24 @@
 </div><div class="box_bg" style="position: absolute; left: 0px; top: 0px; width: 100%; height: 1244px;  z-index: 99; visibility: visible; zoom: 1; display:none;"></div>
 </body>
 </html>
+<script type="text/javascript" src="static/javascript/api/LAB.min.js"></script>
 <script type="text/javascript">
+function currentTime() {
+    var week = ['<spring:message code="message.sunday" />', '<spring:message code="message.monday" />', '<spring:message code="message.tuesday" />', '<spring:message code="message.wednesday" />', '<spring:message code="message.thursday" />', '<spring:message code="message.friday" />', '<spring:message code="message.saturday" />'];
+    var d = new Date(), str = '';
+    str += d.getFullYear() + '-';
+    str += d.getMonth() + 1 + '-';
+    str += d.getDate() + ' ';
+    str += week[d.getDay()]; //获取当前星期X(0-6,0代表星期天)
+    /* str += d.getHours()+'时';
+     str  += d.getMinutes()+'分';
+     str+= d.getSeconds()+'秒';*/
+    return str;
+}
+$LAB
+	.wait(function () {
+		jQuery("#now_time").html(currentTime());
+	    });
 	(function(){
 	  var animenuToggle = document.querySelector('.animenu__toggle'),
 		  animenuNav    = document.querySelector('.animenu__nav'),
@@ -342,4 +360,5 @@
 		  animenuToggle.addEventListener('click', animenuToggleNav);
 	  }
 	})()
+	
 </script>

@@ -54,5 +54,6 @@ MESSAGE = {
     thursday : "Thursday",
     friday : "Friday",
     saturday : "Saturday",
-    sunday : "Sunday"
+    sunday : "Sunday",
+    selectProject: "Select Project"
 };
